@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UIState", menuName = "Data/UI/UIState")]
 public class UIState : ScriptableObject
 {
-    [SerializeField, SerializeReference] private List<UIBehaviour> _behaviours = new List<UIBehaviour>();
+    [SerializeField, SerializeReference,SubclassSelector] private List<UIBehaviour> _behaviours = new List<UIBehaviour>();
     public void DoBehaviour(UIView view)
     {
         for (int i = 0; i < _behaviours.Count; i++)
