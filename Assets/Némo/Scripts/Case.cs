@@ -1,18 +1,19 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public enum Type
 {
-    Empty, Algae, Sun, Black
+    Empty, Algae1, Algae2, Sun, Black
 }
 
 public class Case
 {
-    public Sprite _sprite;
-    public Type _type;
+    public Tile tile;
+    public Type type;
 
-    public Case(Sprite sprite, Type type)
+    public Case(Tile tile, Type type)
     {
-        _sprite = sprite;
-        _type = type;
+        this.tile = tile;
+        this.type = type;
     }
 }

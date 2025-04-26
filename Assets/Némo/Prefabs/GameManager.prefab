@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f301b1f7f2d554d91082d34279ca4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _background: {fileID: 8946968189404087154}
-  _playground: {fileID: 1574418944525076985}
-  _lines: 20
-  _columns: 30
+  background: {fileID: 8946968189404087154}
+  playground: {fileID: 1574418944525076985}
+  algae1: {fileID: 11400000, guid: d433ee98c748b5c489e95b66b412a821, type: 2}
+  algae2: {fileID: 11400000, guid: b19c61cd2f54ec44d9035c9b8a3a9ed4, type: 2}
 --- !u!1001 &3799071564640508796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,10 +100,6 @@ PrefabInstance:
     - target: {fileID: 7142934556130448948, guid: db5109249479a904b9dbef9be21759cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8912329354620925987, guid: db5109249479a904b9dbef9be21759cd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

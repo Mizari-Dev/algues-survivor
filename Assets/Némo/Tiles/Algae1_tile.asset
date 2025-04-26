@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Square_tile
+  m_Name: Algae1_tile
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 7482667652216324306, guid: b5e9e06d9cc8b324287ce15ab4714cda, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: 569b338598168544b90dbcce4e28008d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
