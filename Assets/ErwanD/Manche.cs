@@ -181,7 +181,7 @@ public class Manche
         return new Vector2Int(x, y);
     }
 
-    void endTurn()
+    public void endTurn()
     { 
         GameManager gm = GameManager.Instance;
         foreach (KeyValuePair<PowerType, int> entry in gm.cooldowns)
