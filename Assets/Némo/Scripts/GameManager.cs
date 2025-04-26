@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -42,13 +43,13 @@ public class GameManager : MonoBehaviour
     private Case[][] _theoreticalMap;
     public int turnCount = 0;
     public Type shieldedType;
+    private bool _hasCastAction;
     public static GameManager Instance { get; private set; }
 
     void Awake()
     {
         Instance = this;
         InitGrid();
-        subscriseEvent();
         activeInput = new Dictionary<string, bool>()
         {
             {"up", false},
@@ -56,18 +57,7 @@ public class GameManager : MonoBehaviour
             {"left", false},
             {"right", false}
         };
-        InitBlackSquares();
-        InitSpawn();
-    }
-
-    void Start()
-    {
-        currentManche = new Manche(this, false);
-    }
-
-    void Update()
-    {
-        
+        StartCoroutine(Init());
     }
 
     private void InitGrid()
@@ -80,7 +70,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void InitBlackSquares()
+    private IEnumerator InitBlackSquares()
     {
         for (int x = 0; x < background.size.x; x++)
         {
@@ -91,34 +81,44 @@ public class GameManager : MonoBehaviour
                 {
                     if ((tile as Tile).sprite.name == "Square")
                     {
-                        SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)));
+                        yield return SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)),true);
                     }
                     else
                     {
-                        SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)));
+                        yield return SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)),true);
                     }
                 }
             }
         }
     }
 
-    private void InitSpawn()
+    private IEnumerator InitSpawn()
     {
         int x = (int)(_theoreticalMap.Length * .5f);
-        SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)));
-        SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)));
+        yield return SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true);
+        yield return SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true);
     }
 
+    private IEnumerator Init()
+    {
+        yield return InitBlackSquares();
+        yield return InitSpawn();
+        currentManche = new Manche(this, false);
+        subscriseEvent();
+    }
     /// <summary>
     /// Créer la case
     /// </summary>
     /// <param name="caseToSet">la case</param>
-    public void SetCase(Case caseToSet)
+    public IEnumerator SetCase(Case caseToSet,bool instant = false)
     {
-        
         _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
         if (caseToSet.tile)
+        {
             playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
+            if(!instant)
+            yield return new WaitForSeconds(.02f);
+        }
     }
 
     /// <summary>
@@ -138,15 +138,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void DestroyCase(Vector2Int postiion)
+    public IEnumerator DestroyCase(Vector2Int postiion)
     {
         Case tile = GetCase(postiion);
         if (tile == null)
-            return;
+            yield break;
         if (tile.type == shieldedType)
-            return;
+            yield break;
         tile.type = Type.Empty;
-        SetCase(tile);
+        yield return SetCase(tile,true);
     }
 
     public List<Case> FindAllCaseType(Type type)
@@ -172,6 +172,10 @@ public class GameManager : MonoBehaviour
         this.rightBind._onCancel += rightCancelEvent;
         this.yellow1Bind._onStart += yellow1Event;
         this.yellow2Bind._onStart += yellow2Event;
+        this.yellow3Bind._onStart += yellow3Event;        
+        this.blue1Bind._onStart += blue1Event;
+        this.blue2Bind._onStart += blue2Event;
+        this.blue3Bind._onStart += blue3Event;
         this.yellow4Bind._onStart += firstUltiEvent;
         this.blue4Bind._onStart += secondUltiEvent;
     }
@@ -226,41 +230,110 @@ public class GameManager : MonoBehaviour
 
     private void yellow1Event()
     {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(yellow1EventInternal());
+    }
+    private IEnumerator yellow1EventInternal()
+    {
+        string direction = directionActive();
+        if (direction != "")
+            yield return currentManche.moveDirectionPower(direction, Type.YellowAlgae);
+        this.currentManche.endTurn();
+    }
+    private void yellow2Event()
+    {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(yellow2EventInternal());
+    }
+    private IEnumerator yellow2EventInternal()
+    {
         string direction = directionActive();
         if (direction != "")
         {
-            this.currentManche.moveDirectionPower(direction, Type.YellowAlgae);
+            yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
         }
         this.currentManche.endTurn();
     }
 
-    private void yellow2Event()
-    {
-        string direction = directionActive();
-        if (direction != "")
-        {
-            this.currentManche.moveRandomDirection(direction, Type.YellowAlgae);
-        }
-        this.currentManche.endTurn();
-    }
     private void yellow3Event()
     {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
         shieldedType = Type.YellowAlgae;
         this.currentManche.endTurn();
     }
-
-    private void firstUltiEvent()
+    private void blue1Event()
     {
-        this.currentManche.multiDirectionPower(Type.YellowAlgae);
-        this.currentManche.endTurn();
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(blue1EventInternal());
     }
-
-    private void secondUltiEvent()
+    private IEnumerator blue1EventInternal()
     {
         string direction = directionActive();
         if (direction != "")
         {
-            this.currentManche.threeDirectionPower(direction, Type.YellowAlgae);
+            yield return currentManche.moveDirectionPower(direction, Type.BlueAlgae);
+        }
+        this.currentManche.endTurn();
+    }
+    private void blue2Event()
+    {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(blue2EventInternal());
+    }
+    private IEnumerator blue2EventInternal()
+    {
+        string direction = directionActive();
+        if (direction != "")
+        {
+            yield return currentManche.moveRandomDirection(direction, Type.BlueAlgae);
+        }
+        this.currentManche.endTurn();
+    }
+    private void blue3Event()
+    {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        shieldedType = Type.BlueAlgae;
+        this.currentManche.endTurn();
+    }
+    private void firstUltiEvent()
+    {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(firstUltiEventInternal());
+    }
+    private IEnumerator firstUltiEventInternal()
+    {
+        yield return currentManche.multiDirectionPower(Type.YellowAlgae);
+        yield return currentManche.multiDirectionPower(Type.BlueAlgae);
+        this.currentManche.endTurn();
+    }
+    private void secondUltiEvent()
+    {
+        if (_hasCastAction)
+            return;
+        _hasCastAction = true;
+        StartCoroutine(secondUltiEventInternal());
+    }
+    private IEnumerator secondUltiEventInternal()
+    {
+        string direction = directionActive();
+        if (direction != "")
+        {
+            yield return currentManche.threeDirectionPower(direction, Type.YellowAlgae);
+            yield return currentManche.threeDirectionPower(direction, Type.BlueAlgae);
         }
         this.currentManche.endTurn();
     }
@@ -289,6 +362,7 @@ public class GameManager : MonoBehaviour
         turnCount += 1;
         currentManche.EndManche();
         currentManche = new Manche(this, false);
+        _hasCastAction = false;
         shieldedType = Type.Empty;
     }
 }

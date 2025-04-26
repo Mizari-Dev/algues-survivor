@@ -48,45 +48,38 @@ public class Manche
         this.endTurn();
     }
 
-    public void moveDirectionPower(string direction, Type type)
+    public IEnumerator moveDirectionPower(string direction, Type type)
     {
         List<Case> colorCase;
         if (type == Type.YellowAlgae)
         {
             colorCase = this.yellowAlgaes;
         }
-        else if (type == Type.BlueAlgae) {
+        else if (type == Type.BlueAlgae)
+        {
             colorCase = this.blueAlgaes;
         }
         else
         {
-            return;
+            yield break;
         }
-
+        colorCase.Shuffle();
         foreach (Case c in colorCase)
         {
-           Vector2Int numericDirection = ConvertDirection(direction);
-            try
+            Vector2Int numericDirection = ConvertDirection(direction);
+            Debug.Log(c.position);
+            Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
+            if (nextCase != null && nextCase.type == Type.Empty)
             {
-                Debug.Log(c.position);
-                //Debug.Log(numericDirection);
-                Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
-                if (nextCase != null && nextCase.type == Type.Empty)
-                {
-                    nextCase.type = c.type;
-                    nextCase.position = c.position + numericDirection;
-                    nextCase.tile = c.tile;
-                    GameManager.Instance.SetCase(nextCase);
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log(e);
+                nextCase.type = c.type;
+                nextCase.position = c.position + numericDirection;
+                nextCase.tile = c.tile;
+                yield return _gameManager.SetCase(nextCase);
             }
         }
     }
 
-    public void moveRandomDirection(string direction, Type type)
+    public IEnumerator moveRandomDirection(string direction, Type type)
     {
         Vector2Int directionVector = ConvertDirection(direction);
         List<Case> possibleMove = FindAllEmpty(directionVector, type);
@@ -104,7 +97,7 @@ public class Manche
                 chosenCase.type,
                 chosenCase.position + directionVector
             );
-            _gameManager.SetCase(newCase);
+            yield return _gameManager.SetCase(newCase);
             if (_gameManager.GetCase(newCase.position + directionVector)?.type == Type.Empty)
             {
                 possibleMove[ran] = newCase;
@@ -116,18 +109,18 @@ public class Manche
         }
     }
 
-    public void multiDirectionPower(Type type)
+    public IEnumerator multiDirectionPower(Type type)
     {
         string[] directions = {"up", "down", "left", "right"};
         foreach (string direction in directions)
-            moveDirectionPower(direction, type);
+            yield return moveDirectionPower(direction, type);
     }
 
-    public void threeDirectionPower(string direction, Type type)
+    public IEnumerator threeDirectionPower(string direction, Type type)
     {
         for (int i = 0; i < 3; i++)
         {
-            moveDirectionPower(direction, type);
+            yield return moveDirectionPower(direction, type);
             if (type == Type.YellowAlgae)
                 this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
             else
