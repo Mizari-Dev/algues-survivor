@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     private Manche currentManche;
     private Case[][] _theoreticalMap;
     public int turnCount = 0;
+    public Type shieldedType;
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -137,6 +138,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DestroyCase(Vector2Int postiion)
+    {
+        Case tile = GetCase(postiion);
+        if (tile == null)
+            return;
+        if (tile.type == shieldedType)
+            return;
+        tile.type = Type.Empty;
+        SetCase(tile);
+    }
+
     public List<Case> FindAllCaseType(Type type)
     {
         List<Case> resultTile = new List<Case>();
@@ -230,6 +242,11 @@ public class GameManager : MonoBehaviour
         }
         this.currentManche.endTurn();
     }
+    private void yellow3Event()
+    {
+        shieldedType = Type.YellowAlgae;
+        this.currentManche.endTurn();
+    }
 
     private void yellowUltiEvent()
     {
@@ -265,5 +282,6 @@ public class GameManager : MonoBehaviour
         turnCount += 1;
         currentManche.EndManche();
         currentManche = new Manche(this, false);
+        shieldedType = Type.Empty;
     }
 }
