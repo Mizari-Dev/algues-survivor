@@ -43,7 +43,7 @@ public class Manche : MonoBehaviour
 
     public void moveDirectionPower()
     {
-
+        
     }
 
     public void moveRandomDirection(string direction)
