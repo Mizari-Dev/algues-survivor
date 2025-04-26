@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     public int turnCount = 0;
     public Type shieldedType;
     private bool _hasCastAction;
+    private Coroutine timerCoroutine;
+
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -403,5 +405,15 @@ public class GameManager : MonoBehaviour
     public int getCooldown(PowerType type)
     {
         return this.cooldowns[type];
+    }
+
+    public void stopTimer()
+    {
+        StopCoroutine(this.timerCoroutine);
+    }
+
+    public void startTimer()
+    {
+        this.timerCoroutine = StartCoroutine(this.currentManche.StartTimer());
     }
 }
