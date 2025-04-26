@@ -120,7 +120,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="position">position de la case</param>
     /// <returns>la case</returns>
-    public Case GetCase(Vector3Int position)
+    public Case GetCase(Vector2Int position)
     {
         return _theoreticalMap[position.x][position.y];
     }
