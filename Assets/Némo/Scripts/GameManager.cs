@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     private Tilemap background;
     [SerializeField]
     private Tilemap playground;
+    [SerializeField]
+    private Tile algae1;
+    [SerializeField]
+    private Tile algae2;
     private Case[][] _theoreticalMap;
     
     void Awake()
@@ -47,12 +51,12 @@ public class GameManager : MonoBehaviour
             {
                 int _x = x + xMid;
                 int _y = y + yMid;
-                Sprite sprite = background.GetSprite(new Vector3Int(x, y, 0));
-                if (sprite)
+                Tile tile = background.GetTile<Tile>(new Vector3Int(x, y, 0));
+                if (tile)
                 {
-                    if (sprite.name == "Square")
+                    if (tile.sprite.name == "Square")
                     {
-                        _theoreticalMap[_x][_y] = new Case(sprite, Type.Black);
+                        _theoreticalMap[_x][_y] = new Case(tile, Type.Black);
                     }
                     else
                     {
@@ -65,6 +69,25 @@ public class GameManager : MonoBehaviour
 
     private void InitSpawn()
     {
+        int x = (int)(_theoreticalMap.Length * .5f);
+        SetCase(new Vector3Int(x, 1, 0), new Case(algae1, Type.Algae));
+        SetCase(new Vector3Int(x, _theoreticalMap[0].Length-2, 0), new Case(algae2, Type.Algae));
+    }
+
+    private void SetCase(Vector3Int position, Case caseToSet)
+    {
+        Vector3Int offsetPosition = new Vector3Int(
+            (int)(position.x - background.size.x * .5f),
+            (int)(position.y - background.size.y * .5f),
+            0
+        );
         
+        _theoreticalMap[position.x][position.y] = caseToSet;
+        playground.SetTile(offsetPosition, caseToSet.tile);
+    }
+
+    private Case GetCase(Vector3Int position)
+    {
+        return _theoreticalMap[position.x][position.y];
     }
 }
