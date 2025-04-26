@@ -143,7 +143,14 @@ public class GameManager : MonoBehaviour
     /// <returns>la case</returns>
     public Case GetCase(Vector2Int position)
     {
-        return _theoreticalMap[position.x][position.y];
+        try
+        {
+            return _theoreticalMap[position.x][position.y];
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public List<Case> FindAllCaseType(Type type)
@@ -224,7 +231,7 @@ public class GameManager : MonoBehaviour
         string direction = directionActive();
         if (direction != "")
         {
-            this.currentManche.moveDirectionPower(direction, "yellow");
+            this.currentManche.moveDirectionPower(direction, Type.YellowAlgae);
         }
     }
 

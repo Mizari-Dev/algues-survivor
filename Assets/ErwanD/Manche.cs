@@ -41,14 +41,19 @@ public class Manche : MonoBehaviour
         }
     }
 
-    public void moveDirectionPower(string direction, string color)
+    public void moveDirectionPower(string direction, Type type)
     {
         List<Case> colorCase;
-        if (color == "yellow")
+        if (type == Type.YellowAlgae)
         {
             colorCase = this.yellowAlgaes;
-        } else {
+        }
+        else if (type == Type.BlueAlgae) {
             colorCase = this.blueAlgaes;
+        }
+        else
+        {
+            return;
         }
 
         foreach (Case c in colorCase)
@@ -57,7 +62,7 @@ public class Manche : MonoBehaviour
             try
             {
                 Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
-                if (nextCase != null)
+                if (nextCase != null && nextCase.type == Type.Empty)
                 {
                     nextCase.type = c.type;
                     nextCase.position = c.position + numericDirection;
@@ -72,12 +77,11 @@ public class Manche : MonoBehaviour
         }
     }
 
-    public void moveRandomDirection(string direction)
+    public void moveRandomDirection(string direction, Type type)
     {
         Vector2Int directionVector = ConvertDirection(direction);
         List<Case> possibleMove = new List<Case>();
-        Case[][] theoreticalMap = GameManager.Instance.TheoreticalMap;
-        possibleMove = FindAllEmpty(directionVector);
+        possibleMove = FindAllEmpty(directionVector, type);
         
         int liberties = possibleMove.Count;
         int ran;
@@ -93,7 +97,7 @@ public class Manche : MonoBehaviour
                 chosenCase.position + directionVector
             );
             GameManager.Instance.SetCase(newCase);
-            if (GameManager.Instance.GetCase(chosenCase.position + directionVector).type == Type.Empty)
+            if (GameManager.Instance.GetCase(chosenCase.position + directionVector)?.type == Type.Empty)
             {
                 possibleMove[ran] = newCase;
             }
@@ -104,9 +108,11 @@ public class Manche : MonoBehaviour
         }
     }
 
-    public void multiDirectionPower()
+    public void multiDirectionPower(Type type)
     {
-        
+        string[] directions = {"up", "down", "left", "right"};
+        foreach (string direction in directions)
+            moveDirectionPower(direction, type);
     }
 
     private Vector2Int ConvertDirection(string direction)
@@ -134,15 +140,21 @@ public class Manche : MonoBehaviour
         return new Vector2Int(x, y);
     }
 
-    private List<Case> FindAllEmpty(Vector2Int direction)
+    private List<Case> FindAllEmpty(Vector2Int direction, Type type)
     {
-        Case[][] theoreticalMap = GameManager.Instance.TheoreticalMap;
+        List<Case> algaes;
+        if (type == Type.YellowAlgae)
+            algaes = this.yellowAlgaes;
+        else if (type == Type.BlueAlgae)
+            algaes = this.blueAlgaes;
+        else
+            return null;
+        
         List<Case> empties = new List<Case>();
-        for (int i = 0; i < theoreticalMap.Length; i++)
+        for (int i = 0; i < algaes.Count; i++)
         {
-            empties.AddRange(Array.FindAll(
-                theoreticalMap[i], 
-                caseToFind => GameManager.Instance.GetCase(caseToFind.position).type == Type.Empty));
+            empties.AddRange(algaes.FindAll(
+                caseToFind => GameManager.Instance.GetCase(caseToFind.position + direction)?.type == Type.Empty));
         }
 
         return empties;
