@@ -489,6 +489,34 @@ PrefabInstance:
       propertyPath: m_Navigation.m_SelectOnLeft
       value: 
       objectReference: {fileID: 2075306218}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 41082021}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1210473455635408718, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_Name
       value: Credit
@@ -1494,7 +1522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Play
+      value: Tuto
       objectReference: {fileID: 0}
     - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

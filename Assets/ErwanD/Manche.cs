@@ -17,15 +17,14 @@ public class Manche
     private GameManager _gameManager;
     private List<Enemy> spawnedEnemy = new List<Enemy>();
     private List<Case> ennemyCases = new List<Case>();
-
     public Manche(GameManager gameManager, bool isHighTide)
     {
         _gameManager = gameManager;
         _isHighTide = isHighTide;
         this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
-        _gameManager.StartCoroutine(StartTimer());
         spawnEnemyZone();
+        _gameManager.startTimer();
     }
 
     private void spawnEnemyZone()
@@ -58,8 +57,8 @@ public class Manche
             (newCTop != null && newCTop.type == Type.Black))
         {
             System.Random rnd = new System.Random();
-            int randy = rnd.Next(1, 20 - enemy.height);
-            int randx = rnd.Next(1, 20 - enemy.width);
+            int randy = rnd.Next(1, _gameManager.background.size.y - enemy.height);
+            int randx = rnd.Next(1, _gameManager.background.size.x - enemy.width);
             Vector2Int newVect = new Vector2Int(randx, randy);
             newC = _gameManager.GetCase(newVect);
             newCLeft = _gameManager.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
@@ -78,7 +77,7 @@ public class Manche
         }
     }
 
-    IEnumerator StartTimer()
+    public IEnumerator StartTimer()
     {
         if (_isHighTide)
         {
@@ -203,7 +202,8 @@ public class Manche
     }
 
     public void endTurn()
-    { 
+    {
+        _gameManager.stopTimer();
         GameManager gm = GameManager.Instance;
         foreach (KeyValuePair<PowerType, int> entry in gm.cooldowns)
         {
