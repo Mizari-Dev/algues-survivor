@@ -235,9 +235,9 @@ public class GameManager : MonoBehaviour
         } else if (activeInput["up"])
         {
             return "up";
-        } else if (activeInput["left"])
+        } else if (activeInput["down"])
         {
-            return "left";
+            return "down";
         }
         return "";
     }
