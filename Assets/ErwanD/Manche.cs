@@ -58,8 +58,8 @@ public class Manche
             (newCTop != null && newCTop.type == Type.Black))
         {
             System.Random rnd = new System.Random();
-            int randy = rnd.Next(1, 20 - enemy.height);
-            int randx = rnd.Next(1, 20 - enemy.width);
+            int randy = rnd.Next(1, _gameManager.background.size.y - enemy.height);
+            int randx = rnd.Next(1, _gameManager.background.size.x - enemy.width);
             Vector2Int newVect = new Vector2Int(randx, randy);
             newC = _gameManager.GetCase(newVect);
             newCLeft = _gameManager.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));

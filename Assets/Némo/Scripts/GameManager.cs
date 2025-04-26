@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TileBase _blackGrid;
     [SerializeField]
-    private Tilemap background;
+    public Tilemap background;
     [SerializeField]
     private Tilemap playground;
     [SerializeField]
