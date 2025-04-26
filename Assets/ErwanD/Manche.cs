@@ -45,4 +45,34 @@ public class Manche : MonoBehaviour
     {
 
     }
+
+    public void moveRandomDirection(string direction)
+    {
+        
+    }
+
+    private Vector2Int ConvertDirection(string direction)
+    {
+        int x = 0;
+        int y = 0;
+        switch (direction)
+        {
+            case "up":
+                y = 1;
+                break;
+            case "down":
+                y = -1;
+                break;
+            case "left":
+                x = -1;
+                break;
+            case "right":
+                x = 1;
+                break;
+            default:
+                break;
+        }
+        
+        return new Vector2Int(x, y);
+    }
 }

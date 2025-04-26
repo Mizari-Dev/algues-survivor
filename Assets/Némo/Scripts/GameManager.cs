@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
     private Case[][] _theoreticalMap;
+
+    public Case[][] TheoreticalMap
+    {
+        get;
+    }
     public static GameManager Instance { get; private set; }
 
     void Awake()
