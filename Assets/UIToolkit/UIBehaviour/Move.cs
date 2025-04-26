@@ -1,6 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
+[Serializable,AddTypeMenu("Move")]
 public class Move : UIBehaviour
 {
     [SerializeField] private Vector2 _move;

@@ -12,9 +12,9 @@ public class EndPanelManager : UIPanelManager
     [SerializeField] private List<string> _characters;
     [SerializeField] private ScoreUI _scorePrefab;
     [SerializeField] private Transform _scoreContainer;
-    [SerializeField] private UIPanelController _credits;
     [SerializeField] private List<TextMeshProUGUI> _letters;
-    [SerializeField] private GameObject _selectAfterNameValidation;
+    [SerializeField] private UIPanelController _selectedPanel;
+    [SerializeField] private Animator _animator;
     [SerializeField] private ScriptableKeyBind _upBind;
     [SerializeField] private ScriptableKeyBind _downBind;
     [SerializeField] private ScriptableKeyBind _validateBind;
@@ -22,6 +22,7 @@ public class EndPanelManager : UIPanelManager
     private List<PlayerScore> _scores = new List<PlayerScore>();
     private int _currentCharacterIndex;
     private int _currentLetterIndex;
+    private PlayerScore _currentScore;
 
     private TextMeshProUGUI _currentLetter => _letters[_currentLetterIndex];
     private string _currentCharacter => _characters[_currentCharacterIndex];
@@ -65,10 +66,12 @@ public class EndPanelManager : UIPanelManager
     {
         _currentLetterIndex++;
         _currentCharacterIndex = 0;
+        _animator.SetInteger("CurrentLetter", _currentLetterIndex);
         if (_currentLetterIndex < _letters.Count)
             return;
+        _animator.SetTrigger("Validate");
         SavePlayerScoresToJson(_savePath);
-        EventSystem.current.SetSelectedGameObject(_selectAfterNameValidation);
+        _selectedPanel.Show();
         Unsubscribe();
     }
 
@@ -109,8 +112,8 @@ public class EndPanelManager : UIPanelManager
     public void SavePlayerScoresToJson(string filePath)
     {
         filePath = Path.Combine(_internalSavePath, filePath);
-        PlayerScore score = GetScore();
-        _scores.Add(score);
+        _currentScore = GetScore();
+        _scores.Add(_currentScore);
         try
         {
             // Serialize the list to JSON
@@ -146,7 +149,7 @@ public class EndPanelManager : UIPanelManager
         {
             PlayerScore score = _scores[i];
             ScoreUI scoreUI = Instantiate(_scorePrefab, _scoreContainer);
-            scoreUI.Populate(score);
+            scoreUI.Populate(score, _currentScore == score);
         }
     }
 
@@ -154,12 +157,6 @@ public class EndPanelManager : UIPanelManager
     {
         foreach (Transform T in _scoreContainer)
             Destroy(T.gameObject);
-    }
-
-    public void Credits()
-    {
-        _credits.Show();
-        Hide();
     }
 
     public void Quit()

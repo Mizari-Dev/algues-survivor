@@ -1,6 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
+[Serializable,AddTypeMenu("Scale")]
 public class Scale : UIBehaviour
 {
     [SerializeField] private Vector2 scale;

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable,AddTypeMenu("SetActive")]
 public class SetActive : UIBehaviour
 {
     [SerializeField] private bool _state;
