@@ -14,18 +14,35 @@ public class GameManager : MonoBehaviour
     private AnimatedTile yellowAlgae;
     [SerializeField]
     private AnimatedTile blueAlgae;
-
+    [SerializeField]
+    private ScriptableKeyBind upBind;
+    [SerializeField]
+    private ScriptableKeyBind downBind;
+    [SerializeField]
+    private ScriptableKeyBind leftBind;
+    [SerializeField]
+    private ScriptableKeyBind rightBind;
+    private Dictionary<string, bool> activeInput;
+    private Manche currentManche;
     private Case[][] _theoreticalMap;
-    
+    public static GameManager Instance { get; private set; }
+
     void Awake()
     {
+        Instance = this;
         InitGrid();
+        subscriseEvent();
+        activeInput.Add("up", false);
+        activeInput.Add("down", false);
+        activeInput.Add("left", false);
+        activeInput.Add("right", false);
     }
 
     void Start()
     {
         InitBlackSquares();
         InitSpawn();
+        currentManche = new Manche(false);
     }
 
     void Update()
@@ -117,4 +134,65 @@ public class GameManager : MonoBehaviour
         
         return resultTile;
     }
+    private void subscriseEvent()
+    {
+        this.upBind._onStart += upEvent;
+        this.downBind._onStart += downEvent;
+        this.leftBind._onStart += leftEvent;
+        this.rightBind._onStart += rightEvent;
+        this.upBind._onCancel += upEvent;
+        this.downBind._onCancel += downEvent;
+        this.leftBind._onCancel += leftEvent;
+        this.rightBind._onCancel += rightEvent;
+
+    }
+
+    private void AddDirectionEvent(string direction)
+    {
+        activeInput[direction] = true;
+    }
+
+    private void CancelDirectionEvent(string direction)
+    {
+        activeInput[direction] = false;
+    }
+
+    private void upEvent()
+    {
+        AddDirectionEvent("up");
+    }
+
+    private void downEvent()
+    {
+        AddDirectionEvent("down");
+    }
+
+    private void leftEvent()
+    {
+        AddDirectionEvent("left");
+    }
+    private void rightEvent()
+    {
+        AddDirectionEvent("right");
+    }
+
+    private void upCancelEvent()
+    {
+        CancelDirectionEvent("up");
+    }
+
+    private void downCancelEvent()
+    {
+        CancelDirectionEvent("down");
+    }
+
+    private void leftCancelEvent()
+    {
+        CancelDirectionEvent("left");
+    }
+    private void rightCancelEvent()
+    {
+        CancelDirectionEvent("right");
+    }
+
 }
