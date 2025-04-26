@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
     private Case[][] _theoreticalMap;
+    public Dictionary<PowerType, int> cooldowns;
+    public List<Enemy> enemyList;
+
     public int turnCount = 0;
     public Type shieldedType;
     private bool _hasCastAction;
@@ -57,6 +60,16 @@ public class GameManager : MonoBehaviour
             {"left", false},
             {"right", false}
         };
+        cooldowns = new Dictionary<PowerType, int>()
+        {
+            {PowerType.Moove, 0},
+            {PowerType.Random, 0},
+            {PowerType.Bouclier, 0},
+            {PowerType.UltiLigne, 0},
+            {PowerType.UltiMultiple, 0},
+        };
+        Enemy[] objects = Resources.LoadAll<Enemy>("");
+        enemyList = new List<Enemy>(objects);
         StartCoroutine(Init());
     }
 
@@ -119,6 +132,12 @@ public class GameManager : MonoBehaviour
             if(!instant)
             yield return new WaitForSeconds(.02f);
         }
+    }
+
+    public void SetCaseBackground(Case caseToSet)
+    {
+        if (caseToSet.tile)
+            background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
 
     /// <summary>
@@ -364,5 +383,14 @@ public class GameManager : MonoBehaviour
         currentManche = new Manche(this, false);
         _hasCastAction = false;
         shieldedType = Type.Empty;
+    }
+    public void setCooldown(PowerType type, int time)
+    {
+        this.cooldowns[type] = time;
+    }
+
+    public int getCooldown(PowerType type)
+    {
+        return this.cooldowns[type];
     }
 }

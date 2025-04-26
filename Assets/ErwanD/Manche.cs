@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class Manche
 {
@@ -14,6 +15,7 @@ public class Manche
     private List<Case> yellowAlgaes;
     private List<Case> blueAlgaes;
     private GameManager _gameManager;
+    private List<Enemy> spawnedEnemy = new List<Enemy>();
 
     public Manche(GameManager gameManager, bool isHighTide)
     {
@@ -22,6 +24,45 @@ public class Manche
         this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
         _gameManager.StartCoroutine(StartTimer());
+        spawnEnemyZone();
+    }
+
+    private void spawnEnemyZone()
+    {
+       this.spawnedEnemy.Add(GameManager.Instance.enemyList[0]);
+        foreach (Enemy enemy in this.spawnedEnemy)
+        {
+
+            Vector2Int randomSpawn = getRandomSpawn(enemy);
+            for (int x = 0; x < enemy.width; x++)
+            {
+                for (int y = 0; y < enemy.height; y++)
+                {
+                    Debug.Log(" x et y :" + x + ", " + y);
+                    Case c = new Case(enemy.tile, enemy.type, new Vector2Int(randomSpawn.x + x, randomSpawn.y + y));
+                    GameManager.Instance.SetCaseBackground(c);
+                }
+            }
+        }
+    }
+
+    public Vector2Int getRandomSpawn(Enemy enemy)
+    {
+        Case newC = new Case(Type.Black);
+        Case newCLeft = new Case(Type.Black);
+        Case newCTop = new Case(Type.Black);
+        while (newC.type == Type.Black || newCLeft.type == Type.Black || newCTop.type == Type.Black)
+        {
+            System.Random rnd = new System.Random();
+            int randy = rnd.Next(1, 20 - enemy.height);
+            int randx = rnd.Next(1, 20 - enemy.width);
+            Vector2Int newVect = new Vector2Int(randx, randy);
+            newC = GameManager.Instance.GetCase(newVect);
+            newCLeft = GameManager.Instance.GetCase(new Vector2Int(newVect.x + newC.position.x, newVect.y));
+            newCTop = GameManager.Instance.GetCase(new Vector2Int(newVect.x, newVect.y + newC.position.y));
+            Debug.Log(newC);
+        }
+        return newC.position;
     }
 
     public void EndManche()
@@ -154,8 +195,16 @@ public class Manche
     }
 
     public void endTurn()
-    {
-       GameManager.Instance.nextTurn();
+    { 
+        GameManager gm = GameManager.Instance;
+        foreach (KeyValuePair<PowerType, int> entry in gm.cooldowns)
+        {
+            if (entry.Value > 0)
+            {
+                gm.setCooldown(entry.Key, entry.Value - 1);
+            }
+        }
+        gm.nextTurn();
     }
 
     private List<Case> FindAllEmpty(Vector2Int direction, Type type)
@@ -170,5 +219,10 @@ public class Manche
         
         return algaes.FindAll(
                 caseToFind => GameManager.Instance.GetCase(caseToFind.position + direction)?.type == Type.Empty);
+    }
+
+    private bool isOnCooldown(PowerType type)
+    {
+        return GameManager.Instance.getCooldown(type) != 0;
     }
 }
