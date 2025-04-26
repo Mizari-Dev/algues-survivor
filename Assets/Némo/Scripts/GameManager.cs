@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
@@ -32,10 +31,13 @@ public class GameManager : MonoBehaviour
         Instance = this;
         InitGrid();
         subscriseEvent();
-        activeInput.Add("up", false);
-        activeInput.Add("down", false);
-        activeInput.Add("left", false);
-        activeInput.Add("right", false);
+        activeInput = new Dictionary<string, bool>()
+        {
+            {"up", false},
+            {"down", false},
+            {"left", false},
+            {"right", false}
+        };
     }
 
     void Start()
