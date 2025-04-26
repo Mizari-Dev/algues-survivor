@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Tilemap playground;
     [SerializeField]
-    private Tile algae1;
+    private AnimatedTile algae1;
     [SerializeField]
     private Tile algae2;
 
@@ -52,16 +52,19 @@ public class GameManager : MonoBehaviour
             {
                 int _x = x + xMid;
                 int _y = y + yMid;
-                Tile tile = background.GetTile<Tile>(new Vector3Int(x, y, 0));
+                TileBase tile = background.GetTile(new Vector3Int(x, y, 0));
                 if (tile)
                 {
-                    if (tile.sprite.name == "Square")
+                    if (tile is Tile)
                     {
-                        _theoreticalMap[_x][_y] = new Case(tile, Type.Black);
-                    }
-                    else
-                    {
-                        _theoreticalMap[_x][_y] = new Case(null, Type.Empty);
+                        if ((tile as Tile).sprite.name == "Square")
+                        {
+                            _theoreticalMap[_x][_y] = new Case(tile, Type.Black);
+                        }
+                        else
+                        {
+                            _theoreticalMap[_x][_y] = new Case(null, Type.Empty);
+                        }
                     }
                 }
             }
