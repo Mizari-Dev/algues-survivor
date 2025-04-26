@@ -11,15 +11,21 @@ public class Manche : MonoBehaviour
     private int highTideTime = 15;
     private int lowTideTime = 8;
     private float timer;
+    private List<Case> yellowAlgaes;
+    private List<Case> blueAlgaes;
+    private GameManager gameManager;
     
-    public Manche(bool isHighTide)
+    public Manche(bool isHighTide, GameManager gameManager)
     {
         this.isHighTide = isHighTide;
+        this.gameManager = gameManager;
 
     }
 
     private void Start()
     {
+        this.yellowAlgaes = this.gameManager.findAllCaseType(Type.YellowAlgae);
+        this.blueAlgaes = this.gameManager.findAllCaseType(Type.BlueAlgae);
         StartCoroutine(StartTimer());
     }
 

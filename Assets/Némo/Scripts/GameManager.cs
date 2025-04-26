@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Tilemap playground;
     [SerializeField]
-    private AnimatedTile algae1;
+    private AnimatedTile yellowAlgae;
     [SerializeField]
-    private AnimatedTile algae2;
+    private AnimatedTile blueAlgae;
 
     private Case[][] _theoreticalMap;
     
@@ -57,11 +57,11 @@ public class GameManager : MonoBehaviour
                 {
                     if (tile.sprite.name == "Square")
                     {
-                        _theoreticalMap[_x][_y] = new Case(tile, Type.Black);
+                        _theoreticalMap[_x][_y] = new Case(tile, Type.Black, new Vector2Int(x, y));
                     }
                     else
                     {
-                        _theoreticalMap[_x][_y] = new Case(null, Type.Empty);
+                        _theoreticalMap[_x][_y] = new Case(null, Type.Empty, new Vector2Int(x, y));
                     }
                 }
             }
@@ -71,8 +71,8 @@ public class GameManager : MonoBehaviour
     private void InitSpawn()
     {
         int x = (int)(_theoreticalMap.Length * .5f);
-        SetCase(new Vector3Int(x, 1, 0), new Case(algae1, Type.Algae1));
-        SetCase(new Vector3Int(x, _theoreticalMap[0].Length-2, 0), new Case(algae2, Type.Algae2));
+        SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)));
+        SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)));
     }
 
     /// <summary>
@@ -80,15 +80,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="position">position de la case</param>
     /// <param name="caseToSet">la case</param>
-    public void SetCase(Vector3Int position, Case caseToSet)
+    public void SetCase(Case caseToSet)
     {
         Vector3Int offsetPosition = new Vector3Int(
-            (int)(position.x - background.size.x * .5f),
-            (int)(position.y - background.size.y * .5f),
+            (int)(caseToSet.position.x - background.size.x * .5f),
+            (int)(caseToSet.position.y - background.size.y * .5f),
             0
         );
         
-        _theoreticalMap[position.x][position.y] = caseToSet;
+        _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
         playground.SetTile(offsetPosition, caseToSet.tile);
     }
 
@@ -102,7 +102,19 @@ public class GameManager : MonoBehaviour
         return _theoreticalMap[position.x][position.y];
     }
 
-    void GetTilesWithSpecificSprites(Sprite sprite1, Sprite sprite2)
+    public List<Case> findAllCaseType(Type type)
+    {
+        List<Case> resultTile = new List<Case>();
+        for (int i = 0; i < _theoreticalMap.Length; i++)
+        {
+            Case[] lineCase = Array.FindAll(_theoreticalMap[i], c => c.type == type);
+            resultTile.AddRange(lineCase);
+        }
+        
+        return resultTile;
+    }
+
+            void GetTilesWithSpecificSprites(Sprite sprite1, Sprite sprite2)
     {
         BoundsInt bounds = this.playground.cellBounds;
 
@@ -116,7 +128,8 @@ public class GameManager : MonoBehaviour
 
                 if (tileObj.sprite == sprite1 || tileObj.sprite == sprite2)
                 {
-                    Debug.Log("Tile with matching sprite found at: " + position);
+                    Debug.Log("Tile  " + position);
+
                 }
             }
         }
