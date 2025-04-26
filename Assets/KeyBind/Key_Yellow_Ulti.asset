@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 476b62bb727553e458b0f6677a133a4f, type: 3}
+  m_Name: Key_Yellow_Ulti
+  m_EditorClassIdentifier: 
+  _control:
+    m_Name: Control
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: c9b0a57a-1f14-45ca-9416-ca4dc65470e0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 2e9fc848-7684-41e7-a21e-e3be8d058788
+      m_Path: <Keyboard>/semicolon
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Control
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f81582a4-d241-45d1-bd46-a7171d4a9dea
+      m_Path: <Gamepad>/leftTrigger
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Control
+      m_Flags: 0
+    m_Flags: 0
