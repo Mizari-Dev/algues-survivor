@@ -51,16 +51,18 @@ public class Manche
         Case newC = new Case(Type.Black);
         Case newCLeft = new Case(Type.Black);
         Case newCTop = new Case(Type.Black);
-        while (newC.type == Type.Black || newCLeft.type == Type.Black || newCTop.type == Type.Black)
+        while ((newC != null && newC.type == Type.Black) ||
+            (newCLeft != null && newCLeft.type == Type.Black) ||
+            (newCTop != null && newCTop.type == Type.Black))
         {
             System.Random rnd = new System.Random();
             int randy = rnd.Next(1, 20 - enemy.height);
             int randx = rnd.Next(1, 20 - enemy.width);
             Vector2Int newVect = new Vector2Int(randx, randy);
             newC = GameManager.Instance.GetCase(newVect);
-            newCLeft = GameManager.Instance.GetCase(new Vector2Int(newVect.x + newC.position.x, newVect.y));
-            newCTop = GameManager.Instance.GetCase(new Vector2Int(newVect.x, newVect.y + newC.position.y));
-            Debug.Log(newC);
+            newCLeft = GameManager.Instance.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
+            newCTop = GameManager.Instance.GetCase(new Vector2Int(newVect.x, newVect.y +enemy.height));
+
         }
         return newC.position;
     }
