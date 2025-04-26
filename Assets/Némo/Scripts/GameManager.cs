@@ -37,11 +37,12 @@ public class GameManager : MonoBehaviour
     private ScriptableKeyBind blue3Bind;
     [SerializeField]
     private ScriptableKeyBind blue4Bind;
-
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
+    [SerializeField]
     private Case[][] _theoreticalMap;
 
+    public int turnCount = 0;
     public Case[][] TheoreticalMap
     {
         get;
@@ -60,13 +61,14 @@ public class GameManager : MonoBehaviour
             {"left", false},
             {"right", false}
         };
+        InitBlackSquares();
+        InitSpawn();
     }
 
     void Start()
     {
-        InitBlackSquares();
-        InitSpawn();
-        currentManche = new Manche(false);
+        currentManche = gameObject.AddComponent<Manche>();
+        currentManche.initializeManche(false);
     }
 
     void Update()
@@ -76,17 +78,17 @@ public class GameManager : MonoBehaviour
 
     private void InitGrid()
     {
-        _theoreticalMap = new Case[background.size.x][];
+        _theoreticalMap = new Case[background.size.x - 1][]; 
         for (int i = 0; i < _theoreticalMap.Length; i++)
         {
-            _theoreticalMap[i] = new Case[background.size.y];
+            _theoreticalMap[i] = new Case[background.size.y - 1];
         }
     }
 
     private void InitBlackSquares()
     {
-        int xMid = (int)(background.size.x * .5f);
-        int yMid = (int)(background.size.y * .5f);
+        int xMid = (int)((background.size.x - 1) * .5f);
+        int yMid = (int)((background.size.y - 1) * .5f);
         for (int y = 0 - yMid; y < yMid; y++)
         {
             for (int x = 0 - xMid; x < xMid; x++)
@@ -126,8 +128,8 @@ public class GameManager : MonoBehaviour
     public void SetCase(Case caseToSet)
     {
         Vector3Int offsetPosition = new Vector3Int(
-            (int)(caseToSet.position.x - background.size.x * .5f),
-            (int)(caseToSet.position.y - background.size.y * .5f),
+            (int)(caseToSet.position.x - (background.size.x - 1) * .5f),
+            (int)(caseToSet.position.y - (background.size.y - 1) * .5f),
             0
         );
         
@@ -221,19 +223,36 @@ public class GameManager : MonoBehaviour
 
     private void yellow1Event()
     {
-        if (isDirectionActive())
+        string direction = directionActive();
+        if (direction != "")
         {
-            this.currentManche.moveDirectionPower();
+            this.currentManche.moveDirectionPower(direction, "yellow");
         }
     }
 
-    bool isDirectionActive()
+    string directionActive()
     {
-        if (activeInput["right"] || activeInput["left"] || activeInput["up"] || activeInput["left"])
+        if (activeInput["right"])
         {
-            return true;
+            return "right";
+        } else if (activeInput["left"])
+        {
+            return "left";
+        } else if (activeInput["up"])
+        {
+            return "up";
+        } else if (activeInput["left"])
+        {
+            return "left";
         }
-        return false;
+        return "";
     }
 
+    public void nextTurn()
+    {
+        Debug.Log("NOUVEAU TOUR " + this.turnCount);
+        turnCount += 1;
+        Destroy(this.currentManche);
+        this.currentManche = GetComponent<Manche>();
+    }
 }

@@ -15,7 +15,7 @@ public class Manche : MonoBehaviour
     private List<Case> blueAlgaes;
     private GameManager gameManager;
     
-    public Manche(bool isHighTide)
+    public void initializeManche(bool isHighTide)
     {
         this.isHighTide = isHighTide;
     }
@@ -33,17 +33,56 @@ public class Manche : MonoBehaviour
 
     IEnumerator StartTimer()
     {
+        if (isHighTide)
+        {
+            this.timer = highTideTime;
+        }
+        else
+        {
+            this.timer = lowTideTime;
+        }
         while (this.timer > 0)
         {
             this.timer -= 1f;
             Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
         }
+        this.endTurn();
     }
 
-    public void moveDirectionPower()
+    public void moveDirectionPower(string direction, string color)
     {
+        List<Case> colorCase;
+        if (color == "yellow")
+        {
+            colorCase = this.yellowAlgaes;
+        } else {
+            colorCase = this.blueAlgaes;
+        }
 
+        foreach (Case c in colorCase)
+        {
+           Vector2Int numericDirection = ConvertDirection(direction);
+            try
+            {
+                Debug.Log(c.position);
+                //Debug.Log(numericDirection);
+                Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
+                //Debug.Log(nextCase.position);
+                if (nextCase != null)
+                {
+                    nextCase.type = c.type;
+                    nextCase.position = c.position + numericDirection;
+                    nextCase.tile = c.tile;
+                    GameManager.Instance.SetCase(nextCase);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
+        this.endTurn();
     }
 
     public void moveRandomDirection(string direction)
@@ -74,5 +113,10 @@ public class Manche : MonoBehaviour
         }
         
         return new Vector2Int(x, y);
+    }
+
+    void endTurn()
+    {
+       GameManager.Instance.nextTurn();
     }
 }
