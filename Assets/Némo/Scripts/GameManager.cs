@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
     public int turnCount = 0;
     public Type shieldedType;
     private bool _hasCastAction;
+    private Coroutine timerCoroutine;
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -269,7 +270,7 @@ public class GameManager : MonoBehaviour
     }
     private void yellow2Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Random) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(yellow2EventInternal());
@@ -281,6 +282,7 @@ public class GameManager : MonoBehaviour
         {
             yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
         }
+        this.setCooldown(PowerType.Random, 1);
         this.currentManche.endTurn();
     }
 
@@ -403,5 +405,15 @@ public class GameManager : MonoBehaviour
     public int getCooldown(PowerType type)
     {
         return this.cooldowns[type];
+    }
+    
+    public void stopTimer()
+    {
+        StopCoroutine(this.timerCoroutine);
+    }
+ 
+    public void startTimer()
+    {
+        this.timerCoroutine = StartCoroutine(this.currentManche.StartTimer());
     }
 }
