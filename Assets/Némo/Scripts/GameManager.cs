@@ -74,7 +74,8 @@ public class GameManager : MonoBehaviour
         enemyList = new List<Enemy>(objects);
         InitBlackSquares();
         InitSpawn();
-        currentManche = new Manche(this, false);
+        this.currentManche = new Manche(this, false);
+        startTimer();
         subscriseEvent();
     }
 
@@ -279,14 +280,13 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
-            this.setCooldown(PowerType.Random, 1);
             this.currentManche.endTurn();
         }
     }
 
     private void yellow3Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
         shieldedType = Type.YellowAlgae;
@@ -310,7 +310,7 @@ public class GameManager : MonoBehaviour
     }
     private void blue2Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Random) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(blue2EventInternal());
@@ -326,7 +326,7 @@ public class GameManager : MonoBehaviour
     }
     private void blue3Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
         shieldedType = Type.BlueAlgae;
@@ -334,7 +334,7 @@ public class GameManager : MonoBehaviour
     }
     private void firstUltiEvent()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.UltiMultiple) > 0 ||  this.getCooldown(PowerType.UltiLigne) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(firstUltiEventInternal());
@@ -343,11 +343,12 @@ public class GameManager : MonoBehaviour
     {
         yield return currentManche.multiDirectionPower(Type.YellowAlgae);
         yield return currentManche.multiDirectionPower(Type.BlueAlgae);
+        this.setCooldown(PowerType.UltiMultiple, 10);
         this.currentManche.endTurn();
     }
     private void secondUltiEvent()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0 || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(secondUltiEventInternal());
@@ -359,6 +360,7 @@ public class GameManager : MonoBehaviour
         {
             yield return currentManche.threeDirectionPower(direction, Type.YellowAlgae);
             yield return currentManche.threeDirectionPower(direction, Type.BlueAlgae);
+            this.setCooldown(PowerType.UltiMultiple, 10);
             this.currentManche.endTurn();
         }
     }
