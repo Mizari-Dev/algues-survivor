@@ -21,9 +21,31 @@ public class GameManager : MonoBehaviour
     private ScriptableKeyBind leftBind;
     [SerializeField]
     private ScriptableKeyBind rightBind;
+    [SerializeField]
+    private ScriptableKeyBind yellow1Bind;
+    [SerializeField]
+    private ScriptableKeyBind yellow2Bind;
+    [SerializeField]
+    private ScriptableKeyBind yellow3Bind;
+    [SerializeField]
+    private ScriptableKeyBind yellow4Bind;
+    [SerializeField]
+    private ScriptableKeyBind blue1Bind;
+    [SerializeField]
+    private ScriptableKeyBind blue2Bind;
+    [SerializeField]
+    private ScriptableKeyBind blue3Bind;
+    [SerializeField]
+    private ScriptableKeyBind blue4Bind;
+
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
     private Case[][] _theoreticalMap;
+
+    public Case[][] TheoreticalMap
+    {
+        get;
+    }
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -100,7 +122,6 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Créer la case
     /// </summary>
-    /// <param name="position">position de la case</param>
     /// <param name="caseToSet">la case</param>
     public void SetCase(Case caseToSet)
     {
@@ -120,7 +141,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="position">position de la case</param>
     /// <returns>la case</returns>
-    public Case GetCase(Vector3Int position)
+    public Case GetCase(Vector2Int position)
     {
         return _theoreticalMap[position.x][position.y];
     }
@@ -146,6 +167,7 @@ public class GameManager : MonoBehaviour
         this.downBind._onCancel += downEvent;
         this.leftBind._onCancel += leftEvent;
         this.rightBind._onCancel += rightEvent;
+        this.yellow1Bind._onStart += yellow1Event;
 
     }
 
@@ -195,6 +217,23 @@ public class GameManager : MonoBehaviour
     private void rightCancelEvent()
     {
         CancelDirectionEvent("right");
+    }
+
+    private void yellow1Event()
+    {
+        if (isDirectionActive())
+        {
+            this.currentManche.moveDirectionPower();
+        }
+    }
+
+    bool isDirectionActive()
+    {
+        if (activeInput["right"] || activeInput["left"] || activeInput["up"] || activeInput["left"])
+        {
+            return true;
+        }
+        return false;
     }
 
 }
