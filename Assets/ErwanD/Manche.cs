@@ -33,12 +33,21 @@ public class Manche : MonoBehaviour
 
     IEnumerator StartTimer()
     {
+        if (isHighTide)
+        {
+            this.timer = highTideTime;
+        }
+        else
+        {
+            this.timer = lowTideTime;
+        }
         while (this.timer > 0)
         {
             this.timer -= 1f;
             Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
         }
+        this.endTurn();
     }
 
     public void moveDirectionPower(string direction, string color)
@@ -56,7 +65,10 @@ public class Manche : MonoBehaviour
            Vector2Int numericDirection = ConvertDirection(direction);
             try
             {
+                Debug.Log(c.position);
+                //Debug.Log(numericDirection);
                 Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
+                //Debug.Log(nextCase.position);
                 if (nextCase != null)
                 {
                     nextCase.type = c.type;
@@ -70,6 +82,7 @@ public class Manche : MonoBehaviour
                 Debug.Log(e);
             }
         }
+        this.endTurn();
     }
 
     public void moveRandomDirection(string direction)
@@ -100,5 +113,10 @@ public class Manche : MonoBehaviour
         }
         
         return new Vector2Int(x, y);
+    }
+
+    void endTurn()
+    {
+       GameManager.Instance.nextTurn();
     }
 }

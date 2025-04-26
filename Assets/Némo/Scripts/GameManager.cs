@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Case[][] _theoreticalMap;
 
+    public int turnCount = 0;
     public Case[][] TheoreticalMap
     {
         get;
@@ -127,8 +128,8 @@ public class GameManager : MonoBehaviour
     public void SetCase(Case caseToSet)
     {
         Vector3Int offsetPosition = new Vector3Int(
-            (int)(caseToSet.position.x - background.size.x * .5f),
-            (int)(caseToSet.position.y - background.size.y * .5f),
+            (int)(caseToSet.position.x - (background.size.x - 1) * .5f),
+            (int)(caseToSet.position.y - (background.size.y - 1) * .5f),
             0
         );
         
@@ -247,4 +248,11 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
+    public void nextTurn()
+    {
+        Debug.Log("NOUVEAU TOUR " + this.turnCount);
+        turnCount += 1;
+        Destroy(this.currentManche);
+        this.currentManche = GetComponent<Manche>();
+    }
 }
