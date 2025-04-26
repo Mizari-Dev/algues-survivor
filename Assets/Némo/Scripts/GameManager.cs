@@ -40,6 +40,9 @@ public class GameManager : MonoBehaviour
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
     private Case[][] _theoreticalMap;
+    public Dictionary<PowerType, int> cooldowns;
+    public List<Enemy> enemyList;
+
     public int turnCount = 0;
     public static GameManager Instance { get; private set; }
 
@@ -55,6 +58,14 @@ public class GameManager : MonoBehaviour
             {"left", false},
             {"right", false}
         };
+        cooldowns = new Dictionary<PowerType, int>()
+        {
+            {PowerType.Moove, 0},
+            {PowerType.Random, 0},
+            {PowerType.Bouclier, 0},
+            {PowerType.UltiLigne, 0},
+            {PowerType.UltiMultiple, 0},
+        };
         InitBlackSquares();
         InitSpawn();
     }
@@ -62,6 +73,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentManche = new Manche(this, false);
+        Enemy[] objects = Resources.LoadAll<Enemy>("");
+        enemyList = new List<Enemy>(objects);
     }
 
     void Update()
@@ -118,6 +131,12 @@ public class GameManager : MonoBehaviour
         _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
         if (caseToSet.tile)
             playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
+    }
+
+    public void SetCaseBackground(Case caseToSet)
+    {
+        if (caseToSet.tile)
+            background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
 
     /// <summary>
@@ -272,5 +291,14 @@ public class GameManager : MonoBehaviour
         turnCount += 1;
         currentManche.EndManche();
         currentManche = new Manche(this, false);
+    }
+    public void setCooldown(PowerType type, int time)
+    {
+        this.cooldowns[type] = time;
+    }
+
+    public int getCooldown(PowerType type)
+    {
+        return this.cooldowns[type];
     }
 }
