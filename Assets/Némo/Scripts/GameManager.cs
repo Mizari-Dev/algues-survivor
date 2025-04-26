@@ -394,6 +394,7 @@ public class GameManager : MonoBehaviour
     {
         yield return currentManche.EndManche();
         currentManche = new Manche(this, false);
+        startTimer();
         _hasCastAction = false;
         shieldedType = Type.Empty;
     }
