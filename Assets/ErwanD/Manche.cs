@@ -33,12 +33,21 @@ public class Manche : MonoBehaviour
 
     IEnumerator StartTimer()
     {
+        if (isHighTide)
+        {
+            this.timer = highTideTime;
+        }
+        else
+        {
+            this.timer = lowTideTime;
+        }
         while (this.timer > 0)
         {
             this.timer -= 1f;
             Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
         }
+        this.endTurn();
     }
 
     public void moveDirectionPower(string direction, Type type)
@@ -61,6 +70,8 @@ public class Manche : MonoBehaviour
            Vector2Int numericDirection = ConvertDirection(direction);
             try
             {
+                Debug.Log(c.position);
+                //Debug.Log(numericDirection);
                 Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
                 if (nextCase != null && nextCase.type == Type.Empty)
                 {
@@ -75,6 +86,7 @@ public class Manche : MonoBehaviour
                 Debug.Log(e);
             }
         }
+        this.endTurn();
     }
 
     public void moveRandomDirection(string direction, Type type)
@@ -138,6 +150,11 @@ public class Manche : MonoBehaviour
         }
         
         return new Vector2Int(x, y);
+    }
+
+    void endTurn()
+    {
+       GameManager.Instance.nextTurn();
     }
 
     private List<Case> FindAllEmpty(Vector2Int direction, Type type)

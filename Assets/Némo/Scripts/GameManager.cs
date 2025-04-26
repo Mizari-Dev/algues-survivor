@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Case[][] _theoreticalMap;
 
+    public int turnCount = 0;
     public Case[][] TheoreticalMap
     {
         get;
@@ -243,4 +244,11 @@ public class GameManager : MonoBehaviour
         return "";
     }
 
+    public void nextTurn()
+    {
+        Debug.Log("NOUVEAU TOUR " + this.turnCount);
+        turnCount += 1;
+        Destroy(this.currentManche);
+        this.currentManche = GetComponent<Manche>();
+    }
 }
