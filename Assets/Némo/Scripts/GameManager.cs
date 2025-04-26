@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private Tile algae1;
     [SerializeField]
     private Tile algae2;
+
     private Case[][] _theoreticalMap;
     
     void Awake()
@@ -70,11 +71,16 @@ public class GameManager : MonoBehaviour
     private void InitSpawn()
     {
         int x = (int)(_theoreticalMap.Length * .5f);
-        SetCase(new Vector3Int(x, 1, 0), new Case(algae1, Type.Algae));
-        SetCase(new Vector3Int(x, _theoreticalMap[0].Length-2, 0), new Case(algae2, Type.Algae));
+        SetCase(new Vector3Int(x, 1, 0), new Case(algae1, Type.Algae1));
+        SetCase(new Vector3Int(x, _theoreticalMap[0].Length-2, 0), new Case(algae2, Type.Algae2));
     }
 
-    private void SetCase(Vector3Int position, Case caseToSet)
+    /// <summary>
+    /// Créer la case
+    /// </summary>
+    /// <param name="position">position de la case</param>
+    /// <param name="caseToSet">la case</param>
+    public void SetCase(Vector3Int position, Case caseToSet)
     {
         Vector3Int offsetPosition = new Vector3Int(
             (int)(position.x - background.size.x * .5f),
@@ -86,7 +92,12 @@ public class GameManager : MonoBehaviour
         playground.SetTile(offsetPosition, caseToSet.tile);
     }
 
-    private Case GetCase(Vector3Int position)
+    /// <summary>
+    /// Récupérer la case
+    /// </summary>
+    /// <param name="position">position de la case</param>
+    /// <returns>la case</returns>
+    public Case GetCase(Vector3Int position)
     {
         return _theoreticalMap[position.x][position.y];
     }

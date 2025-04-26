@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public enum Type
 {
-    Empty, Algae, Sun, Black
+    Empty, Algae1, Algae2, Sun, Black
 }
 
 public class Case
