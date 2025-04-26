@@ -8,10 +8,10 @@ public enum Type
 
 public class Case
 {
-    public Tile tile;
+    public TileBase tile;
     public Type type;
 
-    public Case(Tile tile, Type type)
+    public Case(TileBase tile, Type type)
     {
         this.tile = tile;
         this.type = type;
