@@ -24,7 +24,6 @@ public class Manche
         this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
         spawnEnemyZone();
-        _gameManager.startTimer();
     }
 
     private void spawnEnemyZone()
@@ -155,6 +154,7 @@ public class Manche
                 possibleMove.RemoveAt(ran);
             }
         }
+        _gameManager.setCooldown(PowerType.Random, 1);
     }
 
     public IEnumerator multiDirectionPower(Type type)
