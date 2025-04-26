@@ -160,6 +160,7 @@ public class GameManager : MonoBehaviour
         this.rightBind._onCancel += rightCancelEvent;
         this.yellow1Bind._onStart += yellow1Event;
         this.yellow2Bind._onStart += yellow2Event;
+        this.yellow4Bind._onStart += yellowUltiEvent;
     }
 
     private void AddDirectionEvent(string direction)
@@ -217,6 +218,7 @@ public class GameManager : MonoBehaviour
         {
             this.currentManche.moveDirectionPower(direction, Type.YellowAlgae);
         }
+        this.currentManche.endTurn();
     }
 
     private void yellow2Event()
@@ -226,6 +228,17 @@ public class GameManager : MonoBehaviour
         {
             this.currentManche.moveRandomDirection(direction, Type.YellowAlgae);
         }
+        this.currentManche.endTurn();
+    }
+
+    private void yellowUltiEvent()
+    {
+        string direction = directionActive();
+        if (direction != "")
+        {
+            this.currentManche.multiDirectionPower(Type.YellowAlgae);
+        }
+        this.currentManche.endTurn();
     }
 
     string directionActive()

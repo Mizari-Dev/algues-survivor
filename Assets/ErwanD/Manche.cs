@@ -84,7 +84,6 @@ public class Manche
                 Debug.Log(e);
             }
         }
-        this.endTurn();
     }
 
     public void moveRandomDirection(string direction, Type type)
@@ -115,7 +114,6 @@ public class Manche
                 possibleMove.RemoveAt(ran);
             }
         }
-        this.endTurn();
     }
 
     public void multiDirectionPower(Type type)
@@ -150,7 +148,7 @@ public class Manche
         return new Vector2Int(x, y);
     }
 
-    void endTurn()
+    public void endTurn()
     {
        GameManager.Instance.nextTurn();
     }
