@@ -3,17 +3,19 @@ using UnityEngine.Tilemaps;
 
 public enum Type
 {
-    Empty, Algae1, Algae2, Sun, Black
+    Empty, BlueAlgae, YellowAlgae, Sun, Black
 }
 
 public class Case
 {
-    public Tile tile;
+    public TileBase tile;
     public Type type;
+    public Vector2Int position;
 
-    public Case(Tile tile, Type type)
+    public Case(TileBase tile, Type type, Vector2Int position)
     {
         this.tile = tile;
         this.type = type;
+        this.position = position;   
     }
 }

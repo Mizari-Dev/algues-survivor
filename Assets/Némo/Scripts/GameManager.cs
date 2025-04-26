@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
@@ -11,21 +10,41 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Tilemap playground;
     [SerializeField]
-    private Tile algae1;
+    private AnimatedTile yellowAlgae;
     [SerializeField]
-    private Tile algae2;
-
+    private AnimatedTile blueAlgae;
+    [SerializeField]
+    private ScriptableKeyBind upBind;
+    [SerializeField]
+    private ScriptableKeyBind downBind;
+    [SerializeField]
+    private ScriptableKeyBind leftBind;
+    [SerializeField]
+    private ScriptableKeyBind rightBind;
+    private Dictionary<string, bool> activeInput;
+    private Manche currentManche;
     private Case[][] _theoreticalMap;
-    
+    public static GameManager Instance { get; private set; }
+
     void Awake()
     {
+        Instance = this;
         InitGrid();
+        subscriseEvent();
+        activeInput = new Dictionary<string, bool>()
+        {
+            {"up", false},
+            {"down", false},
+            {"left", false},
+            {"right", false}
+        };
     }
 
     void Start()
     {
         InitBlackSquares();
         InitSpawn();
+        currentManche = new Manche(false);
     }
 
     void Update()
@@ -52,16 +71,19 @@ public class GameManager : MonoBehaviour
             {
                 int _x = x + xMid;
                 int _y = y + yMid;
-                Tile tile = background.GetTile<Tile>(new Vector3Int(x, y, 0));
+                TileBase tile = background.GetTile(new Vector3Int(x, y, 0));
                 if (tile)
                 {
-                    if (tile.sprite.name == "Square")
+                    if (tile is Tile)
                     {
-                        _theoreticalMap[_x][_y] = new Case(tile, Type.Black);
-                    }
-                    else
-                    {
-                        _theoreticalMap[_x][_y] = new Case(null, Type.Empty);
+                        if ((tile as Tile).sprite.name == "Square")
+                        {
+                            SetCase(new Case(tile, Type.Black, new Vector2Int(_x, _y)));
+                        }
+                        else
+                        {
+                            SetCase(new Case(null, Type.Empty, new Vector2Int(_x, _y)));
+                        }
                     }
                 }
             }
@@ -71,8 +93,8 @@ public class GameManager : MonoBehaviour
     private void InitSpawn()
     {
         int x = (int)(_theoreticalMap.Length * .5f);
-        SetCase(new Vector3Int(x, 1, 0), new Case(algae1, Type.Algae1));
-        SetCase(new Vector3Int(x, _theoreticalMap[0].Length-2, 0), new Case(algae2, Type.Algae2));
+        SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)));
+        SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)));
     }
 
     /// <summary>
@@ -80,16 +102,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="position">position de la case</param>
     /// <param name="caseToSet">la case</param>
-    public void SetCase(Vector3Int position, Case caseToSet)
+    public void SetCase(Case caseToSet)
     {
         Vector3Int offsetPosition = new Vector3Int(
-            (int)(position.x - background.size.x * .5f),
-            (int)(position.y - background.size.y * .5f),
+            (int)(caseToSet.position.x - background.size.x * .5f),
+            (int)(caseToSet.position.y - background.size.y * .5f),
             0
         );
         
-        _theoreticalMap[position.x][position.y] = caseToSet;
-        playground.SetTile(offsetPosition, caseToSet.tile);
+        _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
+        if (caseToSet.tile)
+            playground.SetTile(offsetPosition, caseToSet.tile);
     }
 
     /// <summary>
@@ -101,4 +124,77 @@ public class GameManager : MonoBehaviour
     {
         return _theoreticalMap[position.x][position.y];
     }
+
+    public List<Case> FindAllCaseType(Type type)
+    {
+        List<Case> resultTile = new List<Case>();
+        for (int i = 0; i < _theoreticalMap.Length; i++)
+        {
+            Case[] lineCase = Array.FindAll(_theoreticalMap[i], c => c.type == type);
+            resultTile.AddRange(lineCase);
+        }
+        
+        return resultTile;
+    }
+    private void subscriseEvent()
+    {
+        this.upBind._onStart += upEvent;
+        this.downBind._onStart += downEvent;
+        this.leftBind._onStart += leftEvent;
+        this.rightBind._onStart += rightEvent;
+        this.upBind._onCancel += upEvent;
+        this.downBind._onCancel += downEvent;
+        this.leftBind._onCancel += leftEvent;
+        this.rightBind._onCancel += rightEvent;
+
+    }
+
+    private void AddDirectionEvent(string direction)
+    {
+        activeInput[direction] = true;
+    }
+
+    private void CancelDirectionEvent(string direction)
+    {
+        activeInput[direction] = false;
+    }
+
+    private void upEvent()
+    {
+        AddDirectionEvent("up");
+    }
+
+    private void downEvent()
+    {
+        AddDirectionEvent("down");
+    }
+
+    private void leftEvent()
+    {
+        AddDirectionEvent("left");
+    }
+    private void rightEvent()
+    {
+        AddDirectionEvent("right");
+    }
+
+    private void upCancelEvent()
+    {
+        CancelDirectionEvent("up");
+    }
+
+    private void downCancelEvent()
+    {
+        CancelDirectionEvent("down");
+    }
+
+    private void leftCancelEvent()
+    {
+        CancelDirectionEvent("left");
+    }
+    private void rightCancelEvent()
+    {
+        CancelDirectionEvent("right");
+    }
+
 }
