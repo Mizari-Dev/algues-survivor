@@ -1,6 +1,8 @@
 using DG.Tweening;
+using System;
 using UnityEngine;
 
+[Serializable,AddTypeMenu("Rotate")]
 public class Rotate : UIBehaviour
 {
     [SerializeField] private Vector3 _rotation;

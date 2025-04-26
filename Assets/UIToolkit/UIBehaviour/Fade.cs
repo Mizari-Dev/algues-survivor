@@ -1,6 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
+using System;
 
+[Serializable,AddTypeMenu("Fade")]
 public class Fade : UIBehaviour
 {
     [SerializeField] private float _alpha;

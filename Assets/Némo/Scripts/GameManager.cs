@@ -221,19 +221,29 @@ public class GameManager : MonoBehaviour
 
     private void yellow1Event()
     {
-        if (isDirectionActive())
+        string direction = directionActive();
+        if (direction != "")
         {
-            this.currentManche.moveDirectionPower();
+            this.currentManche.moveDirectionPower(direction, "yellow");
         }
     }
 
-    bool isDirectionActive()
+    string directionActive()
     {
-        if (activeInput["right"] || activeInput["left"] || activeInput["up"] || activeInput["left"])
+        if (activeInput["right"])
         {
-            return true;
+            return "right";
+        } else if (activeInput["left"])
+        {
+            return "left";
+        } else if (activeInput["up"])
+        {
+            return "up";
+        } else if (activeInput["left"])
+        {
+            return "left";
         }
-        return false;
+        return "";
     }
 
 }

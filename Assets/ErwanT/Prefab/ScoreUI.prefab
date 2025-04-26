@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1655329146684532377}
   - component: {fileID: 1176322525792953544}
   - component: {fileID: 201562346915030668}
+  - component: {fileID: 9142296145088549396}
   m_Layer: 5
   m_Name: ScoreUI
   m_TagString: Untagged
@@ -77,8 +78,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118923cbfac783b448679fb7f052dd4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 9142296145088549396}
   _name: {fileID: 6188301336077074907}
   _point: {fileID: 6304309237792361913}
+--- !u!95 &9142296145088549396
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3036154618258684064}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eba80446684bac741a727c3bc0a1273b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7824089249935849132
 GameObject:
   m_ObjectHideFlags: 0

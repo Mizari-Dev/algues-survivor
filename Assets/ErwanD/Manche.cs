@@ -41,9 +41,35 @@ public class Manche : MonoBehaviour
         }
     }
 
-    public void moveDirectionPower()
+    public void moveDirectionPower(string direction, string color)
     {
+        List<Case> colorCase;
+        if (color == "yellow")
+        {
+            colorCase = this.yellowAlgaes;
+        } else {
+            colorCase = this.blueAlgaes;
+        }
 
+        foreach (Case c in colorCase)
+        {
+           Vector2Int numericDirection = ConvertDirection(direction);
+            try
+            {
+                Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
+                if (nextCase != null)
+                {
+                    nextCase.type = c.type;
+                    nextCase.position = c.position + numericDirection;
+                    nextCase.tile = c.tile;
+                    GameManager.Instance.SetCase(nextCase);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log(e);
+            }
+        }
     }
 
     public void moveRandomDirection(string direction)
