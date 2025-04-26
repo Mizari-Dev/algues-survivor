@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -50,7 +49,6 @@ public class GameManager : MonoBehaviour
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
-
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -76,7 +74,8 @@ public class GameManager : MonoBehaviour
         enemyList = new List<Enemy>(objects);
         InitBlackSquares();
         InitSpawn();
-        currentManche = new Manche(this, false);
+        this.currentManche = new Manche(this, false);
+        startTimer();
         subscriseEvent();
     }
 
@@ -114,11 +113,11 @@ public class GameManager : MonoBehaviour
 
     private void InitSpawn()
     {
-        int x = (int)(_theoreticalMap.Length * .5f);
+        int x = 6;
         StartCoroutine( SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true));
         StartCoroutine( SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true));
     }
-
+    
     /// <summary>
     /// Créer la case
     /// </summary>
@@ -135,7 +134,7 @@ public class GameManager : MonoBehaviour
 
     public void SetCaseBackground(Case caseToSet)
     {
-        if (caseToSet.tile == null)
+        if (caseToSet.tile)
             caseToSet.tile = _blackGrid;
         background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
@@ -263,12 +262,14 @@ public class GameManager : MonoBehaviour
     {
         string direction = directionActive();
         if (direction != "")
+        {
             yield return currentManche.moveDirectionPower(direction, Type.YellowAlgae);
-        this.currentManche.endTurn();
+            this.currentManche.endTurn();
+        }
     }
     private void yellow2Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Random) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(yellow2EventInternal());
@@ -279,13 +280,13 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
 
     private void yellow3Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
         shieldedType = Type.YellowAlgae;
@@ -304,12 +305,12 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveDirectionPower(direction, Type.BlueAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
     private void blue2Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Random) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(blue2EventInternal());
@@ -320,12 +321,12 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveRandomDirection(direction, Type.BlueAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
     private void blue3Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
         shieldedType = Type.BlueAlgae;
@@ -333,7 +334,7 @@ public class GameManager : MonoBehaviour
     }
     private void firstUltiEvent()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.UltiMultiple) > 0 ||  this.getCooldown(PowerType.UltiLigne) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(firstUltiEventInternal());
@@ -342,11 +343,12 @@ public class GameManager : MonoBehaviour
     {
         yield return currentManche.multiDirectionPower(Type.YellowAlgae);
         yield return currentManche.multiDirectionPower(Type.BlueAlgae);
+        this.setCooldown(PowerType.UltiMultiple, 10);
         this.currentManche.endTurn();
     }
     private void secondUltiEvent()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0 || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(secondUltiEventInternal());
@@ -358,8 +360,9 @@ public class GameManager : MonoBehaviour
         {
             yield return currentManche.threeDirectionPower(direction, Type.YellowAlgae);
             yield return currentManche.threeDirectionPower(direction, Type.BlueAlgae);
+            this.setCooldown(PowerType.UltiMultiple, 10);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
 
     string directionActive()
@@ -390,29 +393,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator NextTurnInternal()
     {
         yield return currentManche.EndManche();
-        if (CheckEndGame())
-        {
-            EndGame();
-            yield break;
-        }
         currentManche = new Manche(this, false);
+        startTimer();
         _hasCastAction = false;
         shieldedType = Type.Empty;
-    }
-
-    private bool CheckEndGame()
-    {
-        if (FindAllCaseType(Type.BlueAlgae).Count <= 0)
-            return true;
-        if (FindAllCaseType(Type.YellowAlgae).Count <= 0)
-            return true;
-        return false;
-    }
-    private async void EndGame()
-    {
-        await SceneManager.LoadSceneAsync(2);
-        Events.DoScoreLoaded(turnCount);
-
     }
     public void setCooldown(PowerType type, int time)
     {
@@ -423,12 +407,12 @@ public class GameManager : MonoBehaviour
     {
         return this.cooldowns[type];
     }
-
+    
     public void stopTimer()
     {
         StopCoroutine(this.timerCoroutine);
     }
-
+ 
     public void startTimer()
     {
         this.timerCoroutine = StartCoroutine(this.currentManche.StartTimer());

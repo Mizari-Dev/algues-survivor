@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -24,7 +25,6 @@ public class Manche
         this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
         spawnEnemyZone();
-        _gameManager.startTimer();
     }
 
     private void spawnEnemyZone()
@@ -155,6 +155,7 @@ public class Manche
                 possibleMove.RemoveAt(ran);
             }
         }
+        _gameManager.setCooldown(PowerType.Random, 1);
     }
 
     public IEnumerator multiDirectionPower(Type type)
@@ -205,13 +206,9 @@ public class Manche
     {
         _gameManager.stopTimer();
         GameManager gm = GameManager.Instance;
-        foreach (KeyValuePair<PowerType, int> entry in gm.cooldowns)
-        {
-            if (entry.Value > 0)
-            {
-                gm.setCooldown(entry.Key, entry.Value - 1);
-            }
-        }
+
+        gm.cooldowns.Where(c => c.Value > 0).Select(c => (c.Key, c.Value - 1)).ToList().ForEach(c => gm.setCooldown(c.Key, c.Item2));
+
         gm.nextTurn();
     }
 

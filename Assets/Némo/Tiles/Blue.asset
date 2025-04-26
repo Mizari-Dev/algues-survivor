@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Blue
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: -122394499, guid: 13c5c20405727cc4bbe0089cda32907b, type: 3}
-  - {fileID: -1121637760, guid: 13c5c20405727cc4bbe0089cda32907b, type: 3}
+  - {fileID: -374640244, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
+  - {fileID: -374640244, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0
