@@ -16,6 +16,7 @@ public class Manche
     private List<Case> blueAlgaes;
     private GameManager _gameManager;
     private List<Enemy> spawnedEnemy = new List<Enemy>();
+    private List<Case> ennemyCases = new List<Case>();
 
     public Manche(GameManager gameManager, bool isHighTide)
     {
@@ -40,6 +41,7 @@ public class Manche
                 {
                     Debug.Log(" x et y :" + x + ", " + y);
                     Case c = new Case(enemy.tile, enemy.type, new Vector2Int(randomSpawn.x + x, randomSpawn.y + y));
+                    ennemyCases.Add(c);
                     GameManager.Instance.SetCaseBackground(c);
                 }
             }
@@ -59,17 +61,21 @@ public class Manche
             int randy = rnd.Next(1, 20 - enemy.height);
             int randx = rnd.Next(1, 20 - enemy.width);
             Vector2Int newVect = new Vector2Int(randx, randy);
-            newC = GameManager.Instance.GetCase(newVect);
-            newCLeft = GameManager.Instance.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
-            newCTop = GameManager.Instance.GetCase(new Vector2Int(newVect.x, newVect.y +enemy.height));
-
+            newC = _gameManager.GetCase(newVect);
+            newCLeft = _gameManager.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
+            newCTop = _gameManager.GetCase(new Vector2Int(newVect.x, newVect.y +enemy.height));
         }
         return newC.position;
     }
 
-    public void EndManche()
+    public IEnumerator EndManche()
     {
-        _gameManager.StopAllCoroutines();
+        for (int i = 0; i < ennemyCases.Count; i++)
+        {
+            Case c = ennemyCases[i];
+            yield return _gameManager.DestroyCase(c.position);
+            _gameManager.SetCaseBackground(new Case(null, Type.Empty, c.position));
+        }
     }
 
     IEnumerator StartTimer()

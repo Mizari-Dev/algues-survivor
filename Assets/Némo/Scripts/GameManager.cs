@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private TileBase _blackGrid;
     [SerializeField]
     private Tilemap background;
     [SerializeField]
@@ -123,21 +124,21 @@ public class GameManager : MonoBehaviour
     /// Créer la case
     /// </summary>
     /// <param name="caseToSet">la case</param>
-    public IEnumerator SetCase(Case caseToSet,bool instant = false)
+    public IEnumerator SetCase(Case caseToSet, bool instant = false)
     {
+        if (caseToSet == null)
+            yield break;
         _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
-        if (caseToSet.tile)
-        {
-            playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
-            if(!instant)
+        playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
+        if (!instant)
             yield return new WaitForSeconds(.02f);
-        }
     }
 
     public void SetCaseBackground(Case caseToSet)
     {
-        if (caseToSet.tile)
-            background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
+        if (caseToSet.tile == null)
+            caseToSet.tile = _blackGrid;
+        background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
 
     /// <summary>
@@ -165,8 +166,12 @@ public class GameManager : MonoBehaviour
             yield break;
         if (tile.type == shieldedType)
             yield break;
-        tile.type = Type.Empty;
-        yield return SetCase(tile,true);
+        if (tile.type == Type.BlueAlgae || tile.type == Type.YellowAlgae)
+        {
+            tile.type = Type.Empty;
+            tile.tile = null;
+            yield return SetCase(tile, true);
+        }
     }
 
     public List<Case> FindAllCaseType(Type type)
@@ -380,7 +385,12 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("NOUVEAU TOUR " + this.turnCount);
         turnCount += 1;
-        currentManche.EndManche();
+        StartCoroutine(NextTurnInternal());
+    }
+
+    private IEnumerator NextTurnInternal()
+    {
+        yield return currentManche.EndManche();
         currentManche = new Manche(this, false);
         _hasCastAction = false;
         shieldedType = Type.Empty;

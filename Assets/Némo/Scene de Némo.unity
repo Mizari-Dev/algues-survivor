@@ -6462,7 +6462,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8946968189404087154, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: m_TileColorArray.Array.data[0].m_RefCount
-      value: 722
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 8946968189404087154, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: m_Tiles.Array.data[10].second.m_TileIndex
@@ -6826,7 +6826,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8946968189404087154, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: m_TileMatrixArray.Array.data[0].m_RefCount
-      value: 722
+      value: 720
       objectReference: {fileID: 0}
     - target: {fileID: 8946968189404087154, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[0].m_RefCount

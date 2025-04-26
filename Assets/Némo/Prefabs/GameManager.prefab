@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83f301b1f7f2d554d91082d34279ca4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blackGrid: {fileID: 11400000, guid: 776e4e7cb678ef94894d3aa64c3e6635, type: 2}
   background: {fileID: 8946968189404087154}
   playground: {fileID: 1574418944525076985}
   yellowAlgae: {fileID: 11400000, guid: f3d70762f7206484b9ff452b80ad39c1, type: 2}
@@ -63,6 +64,7 @@ MonoBehaviour:
   blue4Bind: {fileID: 11400000, guid: 0801b4d034712834192f5a94441bedd0, type: 2}
   enemyList: []
   turnCount: 0
+  shieldedType: 0
 --- !u!1001 &3799071564640508796
 PrefabInstance:
   m_ObjectHideFlags: 0
