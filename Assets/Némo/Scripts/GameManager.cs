@@ -117,7 +117,6 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Créer la case
     /// </summary>
-    /// <param name="position">position de la case</param>
     /// <param name="caseToSet">la case</param>
     public void SetCase(Case caseToSet)
     {
