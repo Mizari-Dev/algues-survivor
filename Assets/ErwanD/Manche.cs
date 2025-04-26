@@ -40,4 +40,9 @@ public class Manche : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
     }
+
+    public void moveDirectionPower()
+    {
+
+    }
 }
