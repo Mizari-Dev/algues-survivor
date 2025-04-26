@@ -72,7 +72,10 @@ public class GameManager : MonoBehaviour
         };
         Enemy[] objects = Resources.LoadAll<Enemy>("");
         enemyList = new List<Enemy>(objects);
-        StartCoroutine(Init());
+        InitBlackSquares();
+        InitSpawn();
+        currentManche = new Manche(this, false);
+        subscriseEvent();
     }
 
     private void InitGrid()
@@ -85,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator InitBlackSquares()
+    private void InitBlackSquares()
     {
         for (int x = 0; x < background.size.x; x++)
         {
@@ -96,31 +99,24 @@ public class GameManager : MonoBehaviour
                 {
                     if ((tile as Tile).sprite.name == "Square")
                     {
-                        yield return SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)),true);
+                        StartCoroutine( SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)),true));
                     }
                     else
                     {
-                        yield return SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)),true);
+                        StartCoroutine( SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)),true));
                     }
                 }
             }
         }
     }
 
-    private IEnumerator InitSpawn()
+    private void InitSpawn()
     {
-        int x = (int)(_theoreticalMap.Length * .5f);
-        yield return SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true);
-        yield return SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true);
+        int x = 6;
+        StartCoroutine( SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true));
+        StartCoroutine( SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true));
     }
-
-    private IEnumerator Init()
-    {
-        yield return InitBlackSquares();
-        yield return InitSpawn();
-        currentManche = new Manche(this, false);
-        subscriseEvent();
-    }
+    
     /// <summary>
     /// Créer la case
     /// </summary>
@@ -137,7 +133,7 @@ public class GameManager : MonoBehaviour
 
     public void SetCaseBackground(Case caseToSet)
     {
-        if (caseToSet.tile == null)
+        if (caseToSet.tile)
             caseToSet.tile = _blackGrid;
         background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
@@ -265,8 +261,10 @@ public class GameManager : MonoBehaviour
     {
         string direction = directionActive();
         if (direction != "")
+        {
             yield return currentManche.moveDirectionPower(direction, Type.YellowAlgae);
-        this.currentManche.endTurn();
+            this.currentManche.endTurn();
+        }
     }
     private void yellow2Event()
     {
@@ -281,9 +279,9 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
+            this.setCooldown(PowerType.Random, 1);
+            this.currentManche.endTurn();
         }
-        this.setCooldown(PowerType.Random, 1);
-        this.currentManche.endTurn();
     }
 
     private void yellow3Event()
@@ -307,8 +305,8 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveDirectionPower(direction, Type.BlueAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
     private void blue2Event()
     {
@@ -323,8 +321,8 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             yield return currentManche.moveRandomDirection(direction, Type.BlueAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
     private void blue3Event()
     {
@@ -361,8 +359,8 @@ public class GameManager : MonoBehaviour
         {
             yield return currentManche.threeDirectionPower(direction, Type.YellowAlgae);
             yield return currentManche.threeDirectionPower(direction, Type.BlueAlgae);
+            this.currentManche.endTurn();
         }
-        this.currentManche.endTurn();
     }
 
     string directionActive()
