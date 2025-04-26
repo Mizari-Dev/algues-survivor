@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5348144990516359219}
   - component: {fileID: 964278848712505095}
   - component: {fileID: 626860851048424722}
+  - component: {fileID: 7253055293578663445}
+  - component: {fileID: 8690223285160525029}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -90,7 +92,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1144c0ab0534b4544a9bcf25161096ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selectable: []
+  _selectable:
+  - {fileID: 8690223285160525029}
 --- !u!114 &626860851048424722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -141,6 +144,37 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!225 &7253055293578663445
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210473455635408718}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8690223285160525029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210473455635408718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa3ee18bb8575f4690cbf0963592080, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rt: {fileID: 4971952506505493046}
+  _cg: {fileID: 7253055293578663445}
+  _normalState: {fileID: 11400000, guid: 6f1bd43ab9b893b478493325bf6c2bf6, type: 2}
+  _highlightState: {fileID: 11400000, guid: c20b1780ce5b10c48b1162f6a0a8d0b0, type: 2}
+  _pressState: {fileID: 11400000, guid: 0367268ac53bc444eb969259bb0bc3b4, type: 2}
+  _selectState: {fileID: 11400000, guid: c20b1780ce5b10c48b1162f6a0a8d0b0, type: 2}
+  _disableState: {fileID: 0}
 --- !u!1 &7908879083640323951
 GameObject:
   m_ObjectHideFlags: 0

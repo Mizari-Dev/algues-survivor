@@ -13,46 +13,15 @@ MonoBehaviour:
   m_Name: ButtonHighlightState
   m_EditorClassIdentifier: 
   _behaviours:
-  - rid: 263714039512432752
   - rid: 263714039512432774
   references:
     version: 2
     RefIds:
-    - rid: 263714039512432752
-      type: {class: Move, ns: , asm: Assembly-CSharp}
-      data:
-        transistionType: 0
-        _move: {x: 0, y: 50}
-        _animCurve:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 0
-            inSlope: 0
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 3
-            inWeight: 0
-            outWeight: 0.333333
-          - serializedVersion: 3
-            time: 1
-            value: 1
-            inSlope: 2.0000029
-            outSlope: 0
-            tangentMode: 0
-            weightedMode: 3
-            inWeight: 0.33333302
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        _animDuration: 0.5
     - rid: 263714039512432774
       type: {class: Scale, ns: , asm: Assembly-CSharp}
       data:
         transistionType: 0
-        scale: {x: 1.1, y: 1.1}
+        scale: {x: 0.1, y: 0.1}
         _animCurve:
           serializedVersion: 2
           m_Curve:
@@ -60,21 +29,30 @@ MonoBehaviour:
             time: 0
             value: 0
             inSlope: 0
-            outSlope: 0
+            outSlope: 0.013942428
             tangentMode: 0
             weightedMode: 3
             inWeight: 0
-            outWeight: 0.333333
+            outWeight: 0.434788
+          - serializedVersion: 3
+            time: 0.5
+            value: 0.5
+            inSlope: 3.9858418
+            outSlope: 3.985834
+            tangentMode: 0
+            weightedMode: 3
+            inWeight: 0.26909798
+            outWeight: 0.26909804
           - serializedVersion: 3
             time: 1
             value: 1
-            inSlope: 2.0000029
+            inSlope: 0.013942499
             outSlope: 0
             tangentMode: 0
             weightedMode: 3
-            inWeight: 0.33333302
+            inWeight: 0.434788
             outWeight: 0
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-        _animDuration: 0.5
+        _animDuration: 0.2
