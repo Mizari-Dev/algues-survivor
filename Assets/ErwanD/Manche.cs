@@ -90,8 +90,7 @@ public class Manche
     public void moveRandomDirection(string direction, Type type)
     {
         Vector2Int directionVector = ConvertDirection(direction);
-        List<Case> possibleMove = new List<Case>();
-        possibleMove = FindAllEmpty(directionVector, type);
+        List<Case> possibleMove = FindAllEmpty(directionVector, type);
         
         int liberties = possibleMove.Count;
         int ran;
@@ -106,8 +105,8 @@ public class Manche
                 chosenCase.type,
                 chosenCase.position + directionVector
             );
-            GameManager.Instance.SetCase(newCase);
-            if (GameManager.Instance.GetCase(chosenCase.position + directionVector)?.type == Type.Empty)
+            _gameManager.SetCase(newCase);
+            if (_gameManager.GetCase(newCase.position + directionVector)?.type == Type.Empty)
             {
                 possibleMove[ran] = newCase;
             }
@@ -116,6 +115,7 @@ public class Manche
                 possibleMove.RemoveAt(ran);
             }
         }
+        this.endTurn();
     }
 
     public void multiDirectionPower(Type type)
@@ -165,13 +165,7 @@ public class Manche
         else
             return null;
         
-        List<Case> empties = new List<Case>();
-        for (int i = 0; i < algaes.Count; i++)
-        {
-            empties.AddRange(algaes.FindAll(
-                caseToFind => GameManager.Instance.GetCase(caseToFind.position + direction)?.type == Type.Empty));
-        }
-
-        return empties;
+        return algaes.FindAll(
+                caseToFind => GameManager.Instance.GetCase(caseToFind.position + direction)?.type == Type.Empty);
     }
 }
