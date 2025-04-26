@@ -399,6 +399,7 @@ public class GameManager : MonoBehaviour
             yield break;
         }
         currentManche = new Manche(this, false);
+        startTimer();
         _hasCastAction = false;
         shieldedType = Type.Empty;
     }
