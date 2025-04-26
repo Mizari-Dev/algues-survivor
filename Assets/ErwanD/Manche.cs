@@ -14,6 +14,10 @@ public class Manche : MonoBehaviour
     private List<Case> yellowAlgaes;
     private List<Case> blueAlgaes;
     private GameManager gameManager;
+    private ScriptableKeyBind upBind;
+    private ScriptableKeyBind downBind;
+    private ScriptableKeyBind leftBind;
+    private ScriptableKeyBind rightBind;
     
     public Manche(bool isHighTide, GameManager gameManager)
     {
@@ -22,11 +26,35 @@ public class Manche : MonoBehaviour
 
     }
 
-    private void Start()
+    void Start()
     {
+        subscriseEvent();
         this.yellowAlgaes = this.gameManager.findAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = this.gameManager.findAllCaseType(Type.BlueAlgae);
         StartCoroutine(StartTimer());
+    }
+
+
+
+    private void subscriseEvent()
+    {
+        this.upBind._onStart += upEvent;
+    }
+
+    public void upEvent()
+    {
+
+    }
+
+    public void downEvent()
+    {
+    }
+
+    public void leftEvent()
+    {
+    }
+    public void rightEvent()
+    {
     }
 
     IEnumerator StartTimer()
