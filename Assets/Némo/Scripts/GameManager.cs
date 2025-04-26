@@ -39,14 +39,8 @@ public class GameManager : MonoBehaviour
     private ScriptableKeyBind blue4Bind;
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
-    [SerializeField]
     private Case[][] _theoreticalMap;
-
     public int turnCount = 0;
-    public Case[][] TheoreticalMap
-    {
-        get;
-    }
     public static GameManager Instance { get; private set; }
 
     void Awake()
@@ -165,6 +159,7 @@ public class GameManager : MonoBehaviour
         this.leftBind._onCancel += leftCancelEvent;
         this.rightBind._onCancel += rightCancelEvent;
         this.yellow1Bind._onStart += yellow1Event;
+        this.yellow2Bind._onStart += yellow2Event;
     }
 
     private void AddDirectionEvent(string direction)
@@ -221,6 +216,15 @@ public class GameManager : MonoBehaviour
         if (direction != "")
         {
             this.currentManche.moveDirectionPower(direction, Type.YellowAlgae);
+        }
+    }
+
+    private void yellow2Event()
+    {
+        string direction = directionActive();
+        if (direction != "")
+        {
+            this.currentManche.moveRandomDirection(direction, Type.YellowAlgae);
         }
     }
 
