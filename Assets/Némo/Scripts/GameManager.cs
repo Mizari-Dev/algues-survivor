@@ -160,12 +160,11 @@ public class GameManager : MonoBehaviour
         this.downBind._onStart += downEvent;
         this.leftBind._onStart += leftEvent;
         this.rightBind._onStart += rightEvent;
-        this.upBind._onCancel += upEvent;
-        this.downBind._onCancel += downEvent;
-        this.leftBind._onCancel += leftEvent;
-        this.rightBind._onCancel += rightEvent;
+        this.upBind._onCancel += upCancelEvent;
+        this.downBind._onCancel += downCancelEvent;
+        this.leftBind._onCancel += leftCancelEvent;
+        this.rightBind._onCancel += rightCancelEvent;
         this.yellow1Bind._onStart += yellow1Event;
-
     }
 
     private void AddDirectionEvent(string direction)
