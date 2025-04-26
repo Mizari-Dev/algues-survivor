@@ -48,6 +48,38 @@ public class Manche : MonoBehaviour
 
     public void moveRandomDirection(string direction)
     {
+        Vector2Int directionVector = ConvertDirection(direction);
+        List<Case> possibleMove = new List<Case>();
+        Case[][] theoreticalMap = GameManager.Instance.TheoreticalMap;
+        possibleMove = FindAllEmpty(directionVector);
+        
+        int liberties = possibleMove.Count;
+        int ran;
+        Case chosenCase;
+        Case newCase;
+        for (int i = 0; i < liberties; i++)
+        {
+            ran = UnityEngine.Random.Range(0, possibleMove.Count);
+            chosenCase = possibleMove[ran];
+            newCase = new Case(
+                chosenCase.tile,
+                chosenCase.type,
+                chosenCase.position + directionVector
+            );
+            GameManager.Instance.SetCase(newCase);
+            if (GameManager.Instance.GetCase(chosenCase.position + directionVector).type == Type.Empty)
+            {
+                possibleMove[ran] = newCase;
+            }
+            else
+            {
+                possibleMove.RemoveAt(ran);
+            }
+        }
+    }
+
+    public void multiDirectionPower()
+    {
         
     }
 
@@ -74,5 +106,19 @@ public class Manche : MonoBehaviour
         }
         
         return new Vector2Int(x, y);
+    }
+
+    private List<Case> FindAllEmpty(Vector2Int direction)
+    {
+        Case[][] theoreticalMap = GameManager.Instance.TheoreticalMap;
+        List<Case> empties = new List<Case>();
+        for (int i = 0; i < theoreticalMap.Length; i++)
+        {
+            empties.AddRange(Array.FindAll(
+                theoreticalMap[i], 
+                caseToFind => GameManager.Instance.GetCase(caseToFind.position).type == Type.Empty));
+        }
+
+        return empties;
     }
 }
