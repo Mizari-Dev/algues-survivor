@@ -123,6 +123,18 @@ public class Manche
             moveDirectionPower(direction, type);
     }
 
+    public void threeDirectionPower(string direction, Type type)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            moveDirectionPower(direction, type);
+            if (type == Type.YellowAlgae)
+                this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
+            else
+                this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
+        }
+    }
+
     private Vector2Int ConvertDirection(string direction)
     {
         int x = 0;
