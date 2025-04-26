@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Tilemap playground;
     [SerializeField]
-    private Tile algae1;
+    private AnimatedTile algae1;
     [SerializeField]
-    private Tile algae2;
+    private AnimatedTile algae2;
 
     private Case[][] _theoreticalMap;
     
@@ -100,5 +100,30 @@ public class GameManager : MonoBehaviour
     public Case GetCase(Vector3Int position)
     {
         return _theoreticalMap[position.x][position.y];
+    }
+
+    void GetTilesWithSpecificSprites(Sprite sprite1, Sprite sprite2)
+    {
+        BoundsInt bounds = this.playground.cellBounds;
+
+        foreach (var position in bounds.allPositionsWithin)
+        {
+            TileBase tile = this.playground.GetTile(position);
+
+            if (tile != null && tile is Tile)
+            {
+                Tile tileObj = tile as Tile;
+
+                if (tileObj.sprite == sprite1 || tileObj.sprite == sprite2)
+                {
+                    Debug.Log("Tile with matching sprite found at: " + position);
+                }
+            }
+        }
+    }
+
+    public List<Case> GetYellowAlgue()
+    {
+
     }
 }
