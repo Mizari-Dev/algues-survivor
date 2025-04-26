@@ -147,6 +147,7 @@ public class GameManager : MonoBehaviour
     /// <returns>la case</returns>
     public Case GetCase(Vector2Int position)
     {
+        position.Clamp(Vector2Int.zero, new Vector2Int(_theoreticalMap.Length - 1, _theoreticalMap[0].Length - 1));
         try
         {
             return _theoreticalMap[position.x][position.y];
