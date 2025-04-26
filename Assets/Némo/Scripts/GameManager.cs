@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
     }
     private void yellow2Event()
     {
-        if (_hasCastAction)
+        if (_hasCastAction || this.getCooldown(PowerType.Random) > 0)
             return;
         _hasCastAction = true;
         StartCoroutine(yellow2EventInternal());
@@ -280,6 +280,7 @@ public class GameManager : MonoBehaviour
         {
             yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
         }
+        this.setCooldown(PowerType.Random, 1);
         this.currentManche.endTurn();
     }
 
