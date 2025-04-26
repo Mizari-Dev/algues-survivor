@@ -15,3 +15,4 @@ MonoBehaviour:
   _base: {fileID: 8300000, guid: 302b9d40dfc21ae479d48d48ddbc0d9a, type: 3}
   _loop: {fileID: 8300000, guid: 302b9d40dfc21ae479d48d48ddbc0d9a, type: 3}
   _single: 1
+  _danceRythms: 1
