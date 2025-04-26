@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -71,7 +72,10 @@ public class GameManager : MonoBehaviour
         };
         Enemy[] objects = Resources.LoadAll<Enemy>("");
         enemyList = new List<Enemy>(objects);
-        StartCoroutine(Init());
+        InitBlackSquares();
+        InitSpawn();
+        currentManche = new Manche(this, false);
+        subscriseEvent();
     }
 
     private void InitGrid()
@@ -84,7 +88,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator InitBlackSquares()
+    private void InitBlackSquares()
     {
         for (int x = 0; x < background.size.x; x++)
         {
@@ -95,31 +99,24 @@ public class GameManager : MonoBehaviour
                 {
                     if ((tile as Tile).sprite.name == "Square")
                     {
-                        yield return SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)),true);
+                        StartCoroutine( SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)),true));
                     }
                     else
                     {
-                        yield return SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)),true);
+                        StartCoroutine( SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)),true));
                     }
                 }
             }
         }
     }
 
-    private IEnumerator InitSpawn()
+    private void InitSpawn()
     {
         int x = (int)(_theoreticalMap.Length * .5f);
-        yield return SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true);
-        yield return SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true);
+        StartCoroutine( SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true));
+        StartCoroutine( SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true));
     }
 
-    private IEnumerator Init()
-    {
-        yield return InitBlackSquares();
-        yield return InitSpawn();
-        currentManche = new Manche(this, false);
-        subscriseEvent();
-    }
     /// <summary>
     /// Créer la case
     /// </summary>
@@ -391,9 +388,29 @@ public class GameManager : MonoBehaviour
     private IEnumerator NextTurnInternal()
     {
         yield return currentManche.EndManche();
+        if (CheckEndGame())
+        {
+            EndGame();
+            yield break;
+        }
         currentManche = new Manche(this, false);
         _hasCastAction = false;
         shieldedType = Type.Empty;
+    }
+
+    private bool CheckEndGame()
+    {
+        if (FindAllCaseType(Type.BlueAlgae).Count <= 0)
+            return true;
+        if (FindAllCaseType(Type.YellowAlgae).Count <= 0)
+            return true;
+        return false;
+    }
+    private async void EndGame()
+    {
+        await SceneManager.LoadSceneAsync(2);
+        Events.DoScoreLoaded(turnCount);
+
     }
     public void setCooldown(PowerType type, int time)
     {

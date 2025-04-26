@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
 
 public class EndPanelManager : UIPanelManager
@@ -13,12 +14,14 @@ public class EndPanelManager : UIPanelManager
     [SerializeField] private ScoreUI _scorePrefab;
     [SerializeField] private Transform _scoreContainer;
     [SerializeField] private List<TextMeshProUGUI> _letters;
+    [SerializeField] private TextMeshProUGUI _score;
     [SerializeField] private UIPanelController _selectedPanel;
     [SerializeField] private Animator _animator;
     [SerializeField] private ScriptableKeyBind _upBind;
     [SerializeField] private ScriptableKeyBind _downBind;
     [SerializeField] private ScriptableKeyBind _validateBind;
     private string _internalSavePath;
+    private int _currentScoreValue;
     private List<PlayerScore> _scores = new List<PlayerScore>();
     private int _currentCharacterIndex;
     private int _currentLetterIndex;
@@ -39,15 +42,23 @@ public class EndPanelManager : UIPanelManager
 
     private void Subscribe()
     {
+        Events._scoreLoaded += SetCurrentScore;
         _upBind._onStart += NextCharacter;
         _downBind._onStart += PreviousCharacter;
         _validateBind._onStart += ValidateLetter;
     }
     private void Unsubscribe()
     {
+        Events._scoreLoaded -= SetCurrentScore;
         _upBind._onStart -= NextCharacter;
         _downBind._onStart -= PreviousCharacter;
         _validateBind._onStart -= ValidateLetter;
+    }
+
+    private void SetCurrentScore(int score)
+    {
+        _currentScoreValue = score;
+        _score.text = _currentScoreValue.ToString();
     }
 
     private void PreviousCharacter()
@@ -84,7 +95,7 @@ public class EndPanelManager : UIPanelManager
         string name = "";
         for (int i = 0; i < _letters.Count; i++)
             name += _letters[i].text;
-        return new PlayerScore(name, 1);
+        return new PlayerScore(name, _currentScoreValue);
     }
 
     public void Load(string filePath)

@@ -1119,6 +1119,7 @@ MonoBehaviour:
   - {fileID: 1070577256}
   - {fileID: 1703479481}
   - {fileID: 1885054593}
+  _score: {fileID: 872126630}
   _selectedPanel: {fileID: 1952429952}
   _animator: {fileID: 1952429949}
   _upBind: {fileID: 11400000, guid: 6e0e291dd8148bc4d899f2a7dcba24ce, type: 2}
