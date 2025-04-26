@@ -5,35 +5,33 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public class Manche : MonoBehaviour
+public class Manche
 {
-    public bool isHighTide = false;
+    public bool _isHighTide = false;
     private int highTideTime = 15;
     private int lowTideTime = 8;
     private float timer;
     private List<Case> yellowAlgaes;
     private List<Case> blueAlgaes;
-    private GameManager gameManager;
-    
-    public void initializeManche(bool isHighTide)
-    {
-        this.isHighTide = isHighTide;
-    }
-    void Awake()
-    {
+    private GameManager _gameManager;
 
-    }
-
-    void Start()
+    public Manche(GameManager gameManager, bool isHighTide)
     {
+        _gameManager = gameManager;
+        _isHighTide = isHighTide;
         this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
-        StartCoroutine(StartTimer());
+        _gameManager.StartCoroutine(StartTimer());
+    }
+
+    public void EndManche()
+    {
+        _gameManager.StopAllCoroutines();
     }
 
     IEnumerator StartTimer()
     {
-        if (isHighTide)
+        if (_isHighTide)
         {
             this.timer = highTideTime;
         }

@@ -67,8 +67,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        currentManche = gameObject.AddComponent<Manche>();
-        currentManche.initializeManche(false);
+        currentManche = new Manche(this, false);
     }
 
     void Update()
@@ -248,7 +247,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("NOUVEAU TOUR " + this.turnCount);
         turnCount += 1;
-        Destroy(this.currentManche);
-        this.currentManche = GetComponent<Manche>();
+        currentManche.EndManche();
+        currentManche = new Manche(this, false);
     }
 }
