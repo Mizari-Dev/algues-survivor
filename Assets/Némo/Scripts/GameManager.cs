@@ -37,9 +37,9 @@ public class GameManager : MonoBehaviour
     private ScriptableKeyBind blue3Bind;
     [SerializeField]
     private ScriptableKeyBind blue4Bind;
-
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
+    [SerializeField]
     private Case[][] _theoreticalMap;
 
     public Case[][] TheoreticalMap
@@ -60,13 +60,14 @@ public class GameManager : MonoBehaviour
             {"left", false},
             {"right", false}
         };
+        InitBlackSquares();
+        InitSpawn();
     }
 
     void Start()
     {
-        InitBlackSquares();
-        InitSpawn();
-        currentManche = new Manche(false);
+        currentManche = gameObject.AddComponent<Manche>();
+        currentManche.initializeManche(false);
     }
 
     void Update()
@@ -76,17 +77,17 @@ public class GameManager : MonoBehaviour
 
     private void InitGrid()
     {
-        _theoreticalMap = new Case[background.size.x][];
+        _theoreticalMap = new Case[background.size.x - 1][]; 
         for (int i = 0; i < _theoreticalMap.Length; i++)
         {
-            _theoreticalMap[i] = new Case[background.size.y];
+            _theoreticalMap[i] = new Case[background.size.y - 1];
         }
     }
 
     private void InitBlackSquares()
     {
-        int xMid = (int)(background.size.x * .5f);
-        int yMid = (int)(background.size.y * .5f);
+        int xMid = (int)((background.size.x - 1) * .5f);
+        int yMid = (int)((background.size.y - 1) * .5f);
         for (int y = 0 - yMid; y < yMid; y++)
         {
             for (int x = 0 - xMid; x < xMid; x++)

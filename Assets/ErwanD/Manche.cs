@@ -15,7 +15,7 @@ public class Manche : MonoBehaviour
     private List<Case> blueAlgaes;
     private GameManager gameManager;
     
-    public Manche(bool isHighTide)
+    public void initializeManche(bool isHighTide)
     {
         this.isHighTide = isHighTide;
     }
