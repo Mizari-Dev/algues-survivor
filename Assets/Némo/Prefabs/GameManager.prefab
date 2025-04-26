@@ -53,6 +53,14 @@ MonoBehaviour:
   downBind: {fileID: 11400000, guid: 95da1543885ff094bbc6c8bfc6d9db37, type: 2}
   leftBind: {fileID: 11400000, guid: a94a9751de9b35340865eabad688a0c0, type: 2}
   rightBind: {fileID: 11400000, guid: b8a518bf488e9fd42b8750be28fff699, type: 2}
+  yellow1Bind: {fileID: 11400000, guid: d0900cbc47a01fc4ab7c919949beb4df, type: 2}
+  yellow2Bind: {fileID: 11400000, guid: 8b1988b6d444fde4187b843cc35795be, type: 2}
+  yellow3Bind: {fileID: 11400000, guid: 89fca6f09088b0f4c969303332a52047, type: 2}
+  yellow4Bind: {fileID: 11400000, guid: 7ee7c531ab6afa743aa0352fa91fbff8, type: 2}
+  blue1Bind: {fileID: 11400000, guid: 06df83a1085c1bb4fbd7d06d5c38ca23, type: 2}
+  blue2Bind: {fileID: 11400000, guid: 4a152d7ebe975224f991ae96eb9a0f61, type: 2}
+  blue3Bind: {fileID: 11400000, guid: 355b519248436e845a0241f661b870d7, type: 2}
+  blue4Bind: {fileID: 11400000, guid: 0801b4d034712834192f5a94441bedd0, type: 2}
 --- !u!1001 &3799071564640508796
 PrefabInstance:
   m_ObjectHideFlags: 0

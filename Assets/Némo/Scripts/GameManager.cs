@@ -77,36 +77,30 @@ public class GameManager : MonoBehaviour
 
     private void InitGrid()
     {
-        _theoreticalMap = new Case[background.size.x - 1][]; 
+        Debug.Log($"x: {background.size.x}, y: {background.size.y}");
+        _theoreticalMap = new Case[background.size.x][]; 
         for (int i = 0; i < _theoreticalMap.Length; i++)
         {
-            _theoreticalMap[i] = new Case[background.size.y - 1];
+            _theoreticalMap[i] = new Case[background.size.y];
         }
     }
 
     private void InitBlackSquares()
     {
-        int xMid = (int)((background.size.x - 1) * .5f);
-        int yMid = (int)((background.size.y - 1) * .5f);
-        for (int y = 0 - yMid; y < yMid; y++)
+        for (int x = 0; x < background.size.x; x++)
         {
-            for (int x = 0 - xMid; x < xMid; x++)
+            for (int y = 0; y < background.size.y; y++)
             {
-                int _x = x + xMid;
-                int _y = y + yMid;
                 TileBase tile = background.GetTile(new Vector3Int(x, y, 0));
-                if (tile)
+                if (tile && tile is Tile)
                 {
-                    if (tile is Tile)
+                    if ((tile as Tile).sprite.name == "Square")
                     {
-                        if ((tile as Tile).sprite.name == "Square")
-                        {
-                            SetCase(new Case(tile, Type.Black, new Vector2Int(_x, _y)));
-                        }
-                        else
-                        {
-                            SetCase(new Case(null, Type.Empty, new Vector2Int(_x, _y)));
-                        }
+                        SetCase(new Case(tile, Type.Black, new Vector2Int(x, y)));
+                    }
+                    else
+                    {
+                        SetCase(new Case(null, Type.Empty, new Vector2Int(x, y)));
                     }
                 }
             }
@@ -126,15 +120,10 @@ public class GameManager : MonoBehaviour
     /// <param name="caseToSet">la case</param>
     public void SetCase(Case caseToSet)
     {
-        Vector3Int offsetPosition = new Vector3Int(
-            (int)(caseToSet.position.x - background.size.x * .5f),
-            (int)(caseToSet.position.y - background.size.y * .5f),
-            0
-        );
         
         _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
         if (caseToSet.tile)
-            playground.SetTile(offsetPosition, caseToSet.tile);
+            playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
 
     /// <summary>
