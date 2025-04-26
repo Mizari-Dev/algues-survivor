@@ -41,9 +41,12 @@ public class Manche : MonoBehaviour
         }
     }
 
-    public void moveDirectionPower()
+    public void moveDirectionPower(string direction, string color)
     {
-        
+        foreach (Case c in yellowAlgaes)
+        {
+           // Case nextCase =  
+        }
     }
 
     public void moveRandomDirection(string direction)
