@@ -72,9 +72,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        currentManche = new Manche(this, false);
         Enemy[] objects = Resources.LoadAll<Enemy>("");
         enemyList = new List<Enemy>(objects);
+        Debug.Log(enemyList.Count);
+        currentManche = new Manche(this, false);
     }
 
     void Update()

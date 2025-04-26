@@ -18,4 +18,6 @@ public class Case
         this.type = type;
         this.position = position;   
     }
+
+    public Case(Type type) { this.type = type; }
 }
