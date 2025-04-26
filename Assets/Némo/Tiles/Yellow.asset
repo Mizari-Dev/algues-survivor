@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Yellow
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 1432634850, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
-  - {fileID: 1432634850, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
+  - {fileID: -721364241, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
+  - {fileID: -721364241, guid: 9695c6e4a59bf9d4f97db13d56cf35f0, type: 3}
   m_MinSpeed: 1
   m_MaxSpeed: 1
   m_AnimationStartTime: 0
