@@ -154,7 +154,7 @@ public class EndPanelManager : UIPanelManager
     private void RefreshScore()
     {
         Clear();
-        _scores.OrderBy(x => x._score);
+        _scores = _scores.OrderBy(x => x._score).ToList();
         _scores.Reverse();
         int size = Mathf.Min(4, _scores.Count);
         for (int i = 0; i < size; i++)
