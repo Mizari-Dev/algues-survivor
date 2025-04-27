@@ -19,6 +19,8 @@ public class Manche
     private GameManager _gameManager;
     private List<Enemy> spawnedEnemy = new List<Enemy>();
     private List<Case> ennemyCases = new List<Case>();
+    private List<Type> fishList = new List<Type> {Type.Fish,Type.Fish2,Type.Fish3,Type.ArgZilla,Type.Coquillage,Type.Fugu,Type.Couteau,Type.Palourde}; 
+    
     public Manche(GameManager gameManager, bool isHighTide)
     {
         _gameManager = gameManager;
@@ -32,8 +34,7 @@ public class Manche
     {
         if(_gameManager.turnCount % 5 == 0)
         {
-            Debug.Log("CHAAAAAAAAANNNGGEE");
-            _gameManager.ennemiesNumber++;
+            _gameManager.ennemiesNumber += 3;
         }
 
         this.spawnedEnemy = new List<Enemy>();
@@ -42,7 +43,16 @@ public class Manche
             List<Enemy> enemies = new List<Enemy>();
             if (_isHighTide)
             {
-                enemies = _gameManager.enemyList.Where(enemy => enemy.isHighTide).ToList();
+                System.Random rndGodz = new System.Random();
+                int randGodz = rndGodz.Next(0, 21);
+                if(randGodz == 1)
+                {
+                    enemies = _gameManager.enemyList.Where(enemy => enemy.type == Type.ArgZilla).ToList();
+                }
+                else
+                {
+                    enemies = _gameManager.enemyList.Where(enemy => enemy.isHighTide && !(enemy.type == Type.ArgZilla)).ToList();
+                }
             }
             else
             {
@@ -74,15 +84,26 @@ public class Manche
         }
     }
 
+    public bool isFish(Type type)
+    {
+        return this.fishList.Contains(type);
+    }
+
     public Vector2Int getRandomSpawn(Enemy enemy)
     {
+        int iterateCount = 0;
         Case newC = new Case(Type.Black);
         Case newCLeft = new Case(Type.Black);
         Case newCTop = new Case(Type.Black);
         while ((newC != null && newC.type == Type.Black) ||
             (newCLeft != null && newCLeft.type == Type.Black) ||
-            (newCTop != null && newCTop.type == Type.Black))
+            (newCTop != null && newCTop.type == Type.Black) ||
+            (newC != null && isFish(newC.type)) ||
+            (newCLeft != null && isFish(newCLeft.type)) ||
+            (newCTop != null && isFish(newCTop.type)) 
+            )
         {
+            iterateCount++;
             System.Random rnd = new System.Random();
             int randy = rnd.Next(1, _gameManager.background.size.y - enemy.height);
             int randx = rnd.Next(1, _gameManager.background.size.x - enemy.width);
@@ -90,6 +111,10 @@ public class Manche
             newC = _gameManager.GetCase(newVect);
             newCLeft = _gameManager.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
             newCTop = _gameManager.GetCase(new Vector2Int(newVect.x, newVect.y +enemy.height));
+            if(iterateCount == 10)
+            {
+                return new Vector2Int(0,0);
+            }
         }
         return newC.position;
     }

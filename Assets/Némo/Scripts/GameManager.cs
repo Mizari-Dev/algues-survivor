@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public int turnCount = 0;
     public int numberOfTide = 1;
     public int currentCycleTide = 1;
-    public int ennemiesNumber = 1;
+    public int ennemiesNumber = 3;
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
