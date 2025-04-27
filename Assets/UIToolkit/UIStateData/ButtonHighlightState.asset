@@ -23,7 +23,7 @@ MonoBehaviour:
       type: {class: Scale, ns: , asm: Assembly-CSharp}
       data:
         transistionType: 0
-        scale: {x: 0.1, y: 0.1}
+        scale: {x: 0.2, y: 0.2}
         _animCurve:
           serializedVersion: 2
           m_Curve:
