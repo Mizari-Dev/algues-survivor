@@ -47,9 +47,12 @@ public class Manche
                 enemies = _gameManager.enemyList.Where(enemy => !enemy.isHighTide).ToList();
             }
 
-            System.Random rnd = new System.Random();
-            int rand = rnd.Next(0, enemies.Count);
-            this.spawnedEnemy.Add(enemies[rand]);
+            if (enemies.Count > 0)
+            {
+                System.Random rnd = new System.Random();
+                int rand = rnd.Next(0, enemies.Count);
+                this.spawnedEnemy.Add(enemies[rand]);
+            }
         }
         foreach(Enemy enemy in this.spawnedEnemy)
         {
