@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour
     /// Créer la case
     /// </summary>
     /// <param name="caseToSet">la case</param>
+    /// <param name="instant">s'il faut l'afficher direct</param>
     public IEnumerator SetCase(Case caseToSet, bool instant = false)
     {
         if (caseToSet == null)
@@ -288,12 +289,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator yellow2EventInternal()
     {
-        string direction = directionActive();
-        if (direction != "")
-        {
-            yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
-            this.currentManche.endTurn();
-        }
+        yield return currentManche.moveRandomDirection(Type.YellowAlgae);
+        this.currentManche.endTurn();
     }
 
     private void yellow3Event()
@@ -330,12 +327,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator blue2EventInternal()
     {
-        string direction = directionActive();
-        if (direction != "")
-        {
-            yield return currentManche.moveRandomDirection(direction, Type.BlueAlgae);
-            this.currentManche.endTurn();
-        }
+        yield return currentManche.moveRandomDirection(Type.BlueAlgae);
+        this.currentManche.endTurn();
     }
     private void blue3Event()
     {

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using static UnityEngine.EventSystems.EventTrigger;
+using Random = UnityEngine.Random;
 
 public class Manche
 {
@@ -134,64 +135,84 @@ public class Manche
 
     public IEnumerator moveDirectionPower(string direction, Type type)
     {
-        List<Case> colorCase;
-        if (type == Type.YellowAlgae)
+        List<Case> empties = FindAllEmpty(ConvertDirection(direction), type);
+        Vector2Int numericDirection = ConvertDirection(direction);
+        int numberOfMove = Math.Clamp(empties.Count, 0, 2);
+        for (int i = 0; i < numberOfMove; i++)
         {
-            colorCase = this.yellowAlgaes;
-        }
-        else if (type == Type.BlueAlgae)
-        {
-            colorCase = this.blueAlgaes;
-        }
-        else
-        {
-            yield break;
-        }
-        colorCase.Shuffle();
-        foreach (Case c in colorCase)
-        {
-            Vector2Int numericDirection = ConvertDirection(direction);
-            Debug.Log(c.position);
+            Case c = empties[Random.Range(0, empties.Count)];
             Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
-            if (nextCase != null && nextCase.type == Type.Empty)
-            {
-                nextCase.type = c.type;
-                nextCase.position = c.position + numericDirection;
-                nextCase.tile = c.tile;
-                yield return _gameManager.SetCase(nextCase);
-            }
+            nextCase.type = c.type;
+            nextCase.position = c.position + numericDirection;
+            nextCase.tile = c.tile;
+            empties.Remove(c);
+            yield return _gameManager.SetCase(nextCase);
         }
     }
 
-    public IEnumerator moveRandomDirection(string direction, Type type)
+    public IEnumerator moveRandomDirection(Type type)
     {
-        Vector2Int directionVector = ConvertDirection(direction);
-        List<Case> possibleMove = FindAllEmpty(directionVector, type);
+        List<Vector2Int> directions = new List<Vector2Int>()
+        {
+            Vector2Int.down,
+            Vector2Int.up,
+            Vector2Int.left,
+            Vector2Int.right
+        };
+        List<List<Case>> possibleMove = new List<List<Case>>()
+        {
+            FindAllEmpty(Vector2Int.down, type),
+            FindAllEmpty(Vector2Int.up, type),
+            FindAllEmpty(Vector2Int.left, type),
+            FindAllEmpty(Vector2Int.right, type)
+        };
         
-        int liberties = possibleMove.Count;
+        int liberties = 0;
+        for (int i = 0; i < possibleMove.Count; i++)
+        {
+            if (possibleMove[i].Count == 0)
+            {
+                possibleMove.RemoveAt(i);
+                directions.RemoveAt(i);
+                i--;
+                continue;
+            }
+            
+            liberties += possibleMove[i].Count;
+        }
+
+        List<Case> color;
+        if (type == Type.YellowAlgae)
+            color = this.yellowAlgaes;
+        else
+            color = this.blueAlgaes;
+        liberties = Math.Clamp(liberties, 0, Math.Clamp(color.Count,0,5));
         int ran;
+        int ranDir;
         Case chosenCase;
         Case newCase;
         for (int i = 0; i < liberties; i++)
         {
-            ran = UnityEngine.Random.Range(0, possibleMove.Count);
-            chosenCase = possibleMove[ran];
+            ranDir = Random.Range(0, possibleMove.Count);
+            ran = Random.Range(0, possibleMove[ranDir].Count);
+            chosenCase = possibleMove[ranDir][ran];
             newCase = new Case(
                 chosenCase.tile,
                 chosenCase.type,
-                chosenCase.position + directionVector
+                chosenCase.position + directions[ranDir]
             );
+            
+            possibleMove[ranDir].RemoveAt(ran);
+            if (possibleMove[ranDir].Count == 0)
+            {
+                possibleMove.RemoveAt(ranDir);
+                directions.RemoveAt(ranDir);
+            }
+            
             yield return _gameManager.SetCase(newCase);
-            if (_gameManager.GetCase(newCase.position + directionVector)?.type == Type.Empty)
-            {
-                possibleMove[ran] = newCase;
-            }
-            else
-            {
-                possibleMove.RemoveAt(ran);
-            }
         }
-        _gameManager.setCooldown(PowerType.Random, 1);
+        _gameManager.setCooldown(PowerType.Random, 5);
+        yield return null;
     }
 
     public IEnumerator multiDirectionPower(Type type)
