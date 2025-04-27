@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     public int turnCount = 0;
     public int numberOfTide = 1;
     public int currentCycleTide = 1;
-    public int ennemiesNumber = 1;
+    public int ennemiesNumber = 3;
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
     private void InitSpawn()
     {
         int x = 6;
-        StartCoroutine( SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true));
+        StartCoroutine(SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)), true));
         StartCoroutine( SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true));
     }
     
@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
     /// Créer la case
     /// </summary>
     /// <param name="caseToSet">la case</param>
+    /// <param name="instant">s'il faut l'afficher direct</param>
     public IEnumerator SetCase(Case caseToSet, bool instant = false)
     {
         if (caseToSet == null)
@@ -290,12 +291,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator yellow2EventInternal()
     {
-        string direction = directionActive();
-        if (direction != "")
-        {
-            yield return currentManche.moveRandomDirection(direction, Type.YellowAlgae);
-            this.currentManche.endTurn();
-        }
+        yield return currentManche.moveRandomDirection(Type.YellowAlgae);
+        this.currentManche.endTurn();
     }
 
     private void yellow3Event()
@@ -332,12 +329,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator blue2EventInternal()
     {
-        string direction = directionActive();
-        if (direction != "")
-        {
-            yield return currentManche.moveRandomDirection(direction, Type.BlueAlgae);
-            this.currentManche.endTurn();
-        }
+        yield return currentManche.moveRandomDirection(Type.BlueAlgae);
+        this.currentManche.endTurn();
     }
     private void blue3Event()
     {
@@ -359,7 +352,7 @@ public class GameManager : MonoBehaviour
     {
         yield return currentManche.multiDirectionPower(Type.YellowAlgae);
         yield return currentManche.multiDirectionPower(Type.BlueAlgae);
-        this.setCooldown(PowerType.UltiMultiple, 10);
+        this.setCooldown(PowerType.UltiMultiple, 11);
         this.currentManche.endTurn();
     }
     private void secondUltiEvent()
