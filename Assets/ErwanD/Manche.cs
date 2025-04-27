@@ -45,13 +45,14 @@ public class Manche
             {
                 System.Random rndGodz = new System.Random();
                 int randGodz = rndGodz.Next(0, 21);
+                Debug.Log(randGodz);
                 if(randGodz == 1)
                 {
                     enemies = _gameManager.enemyList.Where(enemy => enemy.type == Type.ArgZilla).ToList();
                 }
                 else
                 {
-                    enemies = _gameManager.enemyList.Where(enemy => enemy.isHighTide && !(enemy.type == Type.ArgZilla)).ToList();
+                    enemies = _gameManager.enemyList.Where(enemy => enemy.isHighTide && enemy.type != Type.ArgZilla).ToList();
                 }
             }
             else

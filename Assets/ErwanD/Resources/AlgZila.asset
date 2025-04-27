@@ -16,7 +16,7 @@ MonoBehaviour:
   width: 5
   height: 9
   tile: {fileID: 11400000, guid: cdad00474ecf87649ae21d29254e3ef2, type: 2}
-  type: 0
+  type: 12
   isHighTide: 1
   _soundOnSpawn: {fileID: 0}
   _soundOnPlay: {fileID: 0}
