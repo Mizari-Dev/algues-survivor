@@ -1179,10 +1179,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2784545372591225339, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
+    - target: {fileID: 5569183217845300878, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
+      propertyPath: lowTideSprite
+      value: 
+      objectReference: {fileID: 68121707}
+    - target: {fileID: 5569183217845300878, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
+      propertyPath: highTideSprite
+      value: 
+      objectReference: {fileID: 1321607252}
     - target: {fileID: 5699295577684583263, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: m_IsActive
       value: 1

@@ -51,19 +51,27 @@ public class Manche
             int rand = rnd.Next(0, enemies.Count);
             this.spawnedEnemy.Add(enemies[rand]);
         }
+        foreach(Enemy enemy in this.spawnedEnemy)
+        {
+            Debug.Log(enemy.type);
+        }
     }
 
     private void spawnEnemyZone()
     {
+        selectEnnemies();
         foreach (Enemy enemy in this.spawnedEnemy)
         {
 
             Vector2Int randomSpawn = getRandomSpawn(enemy);
+            Debug.Log(randomSpawn);
             for (int x = 0; x < enemy.width; x++)
             {
                 for (int y = 0; y < enemy.height; y++)
                 {
-                    Debug.Log(" x et y :" + x + ", " + y);
+                    Debug.Log(" x et y :" );
+                    Debug.Log(randomSpawn.x + x);
+                    Debug.Log(randomSpawn.y + y);
                     Case c = new Case(enemy.tile, enemy.type, new Vector2Int(randomSpawn.x + x, randomSpawn.y + y));
                     ennemyCases.Add(c);
                     GameManager.Instance.SetCaseBackground(c);
