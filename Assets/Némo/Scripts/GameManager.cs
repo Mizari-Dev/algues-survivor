@@ -92,6 +92,11 @@ public class GameManager : MonoBehaviour
         subscriseEvent();
     }
 
+    private void OnDestroy()
+    {
+        unsubscriseEvent();
+    }
+
     private void InitGrid()
     {
        // Debug.Log($"x: {background.size.x}, y: {background.size.y}");
@@ -217,6 +222,25 @@ public class GameManager : MonoBehaviour
         this.blue3Bind._onStart += blue3Event;
         this.yellow4Bind._onStart += firstUltiEvent;
         this.blue4Bind._onStart += secondUltiEvent;
+    }
+    private void unsubscriseEvent()
+    {
+        this.upBind._onStart -= upEvent;
+        this.downBind._onStart -= downEvent;
+        this.leftBind._onStart -= leftEvent;
+        this.rightBind._onStart -= rightEvent;
+        this.upBind._onCancel -= upCancelEvent;
+        this.downBind._onCancel-= downCancelEvent;
+        this.leftBind._onCancel -= leftCancelEvent;
+        this.rightBind._onCancel -= rightCancelEvent;
+        this.yellow1Bind._onStart -= yellow1Event;
+        this.yellow2Bind._onStart -= yellow2Event;
+        this.yellow3Bind._onStart -= yellow3Event;        
+        this.blue1Bind._onStart -= blue1Event;
+        this.blue2Bind._onStart -= blue2Event;
+        this.blue3Bind._onStart -= blue3Event;
+        this.yellow4Bind._onStart -= firstUltiEvent;
+        this.blue4Bind._onStart -= secondUltiEvent;
     }
 
     private void AddDirectionEvent(string direction)

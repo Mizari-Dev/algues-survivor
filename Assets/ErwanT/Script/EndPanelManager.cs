@@ -38,6 +38,10 @@ public class EndPanelManager : UIPanelManager
         Load(_savePath);
         RefreshScore();
     }
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
 
     #region NAME REGISTER
 
