@@ -212,14 +212,37 @@ public class Manche
             yield return _gameManager.SetCase(newCase);
         }
         _gameManager.setCooldown(PowerType.Random, 5);
-        yield return null;
     }
 
     public IEnumerator multiDirectionPower(Type type)
     {
-        string[] directions = {"up", "down", "left", "right"};
-        foreach (string direction in directions)
-            yield return moveDirectionPower(direction, type);
+        Vector2Int[] direcitons = new Vector2Int[]
+        {
+            Vector2Int.down,
+            Vector2Int.up,
+            Vector2Int.left,
+            Vector2Int.right
+        };
+        List<List<Case>> empties = new List<List<Case>>()
+        {
+            FindAllEmpty(Vector2Int.down, type),
+            FindAllEmpty(Vector2Int.up, type),
+            FindAllEmpty(Vector2Int.left, type),
+            FindAllEmpty(Vector2Int.right, type)
+        };
+
+        for (int i = 0; i < empties.Count; i++)
+        {
+            for (int j = 0; j < empties[i].Count; j++)
+            {
+                Case c = empties[i][j];
+                Case nextCase = _gameManager.GetCase(c.position + direcitons[i]);
+                nextCase.type = c.type;
+                nextCase.position = c.position + direcitons[i];
+                nextCase.tile = c.tile;
+                yield return _gameManager.SetCase(nextCase);
+            }
+        }
     }
 
     public IEnumerator threeDirectionPower(string direction, Type type)

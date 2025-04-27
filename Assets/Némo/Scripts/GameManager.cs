@@ -350,7 +350,7 @@ public class GameManager : MonoBehaviour
     {
         yield return currentManche.multiDirectionPower(Type.YellowAlgae);
         yield return currentManche.multiDirectionPower(Type.BlueAlgae);
-        this.setCooldown(PowerType.UltiMultiple, 10);
+        this.setCooldown(PowerType.UltiMultiple, 11);
         this.currentManche.endTurn();
     }
     private void secondUltiEvent()
