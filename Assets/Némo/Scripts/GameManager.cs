@@ -386,7 +386,6 @@ public class GameManager : MonoBehaviour
     {
         if (_hasCastAction || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0 || this.getCooldown(PowerType.UltiMultiple) > 0 || this.getCooldown(PowerType.UltiLigne) > 0)
             return;
-        _hasCastAction = true;
         StartCoroutine(secondUltiEventInternal());
     }
     private IEnumerator secondUltiEventInternal()
@@ -394,6 +393,7 @@ public class GameManager : MonoBehaviour
         string direction = directionActive();
         if (direction != "")
         {
+            _hasCastAction = true;
             yield return currentManche.threeDirectionPower(direction, Type.YellowAlgae);
             yield return currentManche.threeDirectionPower(direction, Type.BlueAlgae);
             this.setCooldown(PowerType.UltiMultiple, 10);
