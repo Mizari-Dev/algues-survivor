@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _behaviours:
   - rid: 263714039512432774
+  _sounds:
+  - {fileID: 11400000, guid: a5e2ef84de7febb4eba899e32de96c5f, type: 2}
   references:
     version: 2
     RefIds:
