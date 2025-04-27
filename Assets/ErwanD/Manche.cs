@@ -31,11 +31,12 @@ public class Manche
     {
         if(_gameManager.turnCount % 5 == 0)
         {
+            Debug.Log("CHAAAAAAAAANNNGGEE");
             _gameManager.ennemiesNumber++;
         }
 
         this.spawnedEnemy = new List<Enemy>();
-        for (int i = 0; i < _gameManager.turnCount; i++)
+        for (int i = 0; i < _gameManager.ennemiesNumber; i++)
         {
             List<Enemy> enemies = new List<Enemy>();
             if (_isHighTide)
@@ -51,10 +52,6 @@ public class Manche
             int rand = rnd.Next(0, enemies.Count);
             this.spawnedEnemy.Add(enemies[rand]);
         }
-        foreach(Enemy enemy in this.spawnedEnemy)
-        {
-            Debug.Log(enemy.type);
-        }
     }
 
     private void spawnEnemyZone()
@@ -62,16 +59,12 @@ public class Manche
         selectEnnemies();
         foreach (Enemy enemy in this.spawnedEnemy)
         {
-
+            Debug.Log(enemy.name);
             Vector2Int randomSpawn = getRandomSpawn(enemy);
-            Debug.Log(randomSpawn);
             for (int x = 0; x < enemy.width; x++)
             {
                 for (int y = 0; y < enemy.height; y++)
                 {
-                    Debug.Log(" x et y :" );
-                    Debug.Log(randomSpawn.x + x);
-                    Debug.Log(randomSpawn.y + y);
                     Case c = new Case(enemy.tile, enemy.type, new Vector2Int(randomSpawn.x + x, randomSpawn.y + y));
                     ennemyCases.Add(c);
                     GameManager.Instance.SetCaseBackground(c);
@@ -124,7 +117,7 @@ public class Manche
         while (this.timer > 0)
         {
             this.timer -= 1f;
-            Debug.Log("Time Remaining: " + timer);
+           // Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
             Events.SetTimer(timer);
         }
@@ -150,7 +143,6 @@ public class Manche
         foreach (Case c in colorCase)
         {
             Vector2Int numericDirection = ConvertDirection(direction);
-            Debug.Log(c.position);
             Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
             if (nextCase != null && nextCase.type == Type.Empty)
             {
