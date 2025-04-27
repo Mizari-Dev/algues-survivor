@@ -460,6 +460,7 @@ public class GameManager : MonoBehaviour
     public void setCooldown(PowerType type, int time)
     {
         this.cooldowns[type] = time;
+        Events.DoSetCooldown(type,time);
     }
 
     public int getCooldown(PowerType type)
