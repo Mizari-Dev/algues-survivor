@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -425,6 +426,22 @@ public class GameManager : MonoBehaviour
         _hasCastAction = false;
         shieldedType = Type.Empty;
     }
+
+    private bool CheckEndGame()
+    {
+        if (FindAllCaseType(Type.BlueAlgae).Count <= 0)
+            return true;
+        if (FindAllCaseType(Type.YellowAlgae).Count <= 0)
+            return true;
+        return false;
+    }
+    private async void EndGame()
+    {
+        await SceneManager.LoadSceneAsync(2);
+        Events.DoScoreLoaded(turnCount);
+
+    }
+
     public void setCooldown(PowerType type, int time)
     {
         this.cooldowns[type] = time;
