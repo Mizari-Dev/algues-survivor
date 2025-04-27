@@ -114,11 +114,13 @@ public class Manche
         {
             this.timer = lowTideTime;
         }
+        Events.SetTimer(timer);
         while (this.timer > 0)
         {
             this.timer -= 1f;
            // Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
+            Events.SetTimer(timer);
         }
         this.endTurn();
     }
