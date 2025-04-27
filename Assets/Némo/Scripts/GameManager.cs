@@ -303,6 +303,7 @@ public class GameManager : MonoBehaviour
         string direction = directionActive();
         if (direction != "")
         {
+            _hasCastAction = true;
             yield return currentManche.moveDirectionPower(direction, Type.YellowAlgae);
             this.currentManche.endTurn();
         }
@@ -334,7 +335,6 @@ public class GameManager : MonoBehaviour
     {
         if (_hasCastAction)
             return;
-        _hasCastAction = true;
         StartCoroutine(blue1EventInternal());
     }
     private IEnumerator blue1EventInternal()
@@ -342,6 +342,7 @@ public class GameManager : MonoBehaviour
         string direction = directionActive();
         if (direction != "")
         {
+            _hasCastAction = true;
             yield return currentManche.moveDirectionPower(direction, Type.BlueAlgae);
             this.currentManche.endTurn();
         }
