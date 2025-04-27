@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     private void InitGrid()
     {
-        Debug.Log($"x: {background.size.x}, y: {background.size.y}");
+       // Debug.Log($"x: {background.size.x}, y: {background.size.y}");
         _theoreticalMap = new Case[background.size.x][]; 
         for (int i = 0; i < _theoreticalMap.Length; i++)
         {
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour
 
     public void SetCaseBackground(Case caseToSet)
     {
-        if (caseToSet.tile)
+        if (caseToSet.tile == null)
             caseToSet.tile = _blackGrid;
         background.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
     }
@@ -420,7 +420,16 @@ public class GameManager : MonoBehaviour
             isHighTide = false;
             currentCycleTide--;
         }
-        Debug.Log(isHighTide);
+        if (isHighTide)
+        {
+            highTideSprite.SetActive(true);
+            lowTideSprite.SetActive(false);
+        }
+        else
+        {
+            highTideSprite.SetActive(false);
+            lowTideSprite.SetActive(true);
+        }
         currentManche = new Manche(this, isHighTide);
         startTimer();
         _hasCastAction = false;
