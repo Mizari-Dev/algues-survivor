@@ -2769,8 +2769,32 @@ PrefabInstance:
       value: Survie jour
       objectReference: {fileID: 0}
     - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
       propertyPath: m_fontStyle
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3879055283850874975, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 7015959663998734849, guid: 1ec0ea118c6797340a2e0a133dba4e96, type: 3}
       propertyPath: m_Name
