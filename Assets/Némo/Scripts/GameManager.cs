@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour
     private ScriptableKeyBind blue3Bind;
     [SerializeField]
     private ScriptableKeyBind blue4Bind;
+    [SerializeField]
+    GameObject highTideSprite;
+    [SerializeField]
+    GameObject lowTideSprite;
     private Dictionary<string, bool> activeInput;
     private Manche currentManche;
     private Case[][] _theoreticalMap;
@@ -46,6 +50,9 @@ public class GameManager : MonoBehaviour
     public List<Enemy> enemyList;
 
     public int turnCount = 0;
+    public int numberOfTide = 1;
+    public int currentCycleTide = 1;
+    public int ennemiesNumber;
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
@@ -393,7 +400,27 @@ public class GameManager : MonoBehaviour
     private IEnumerator NextTurnInternal()
     {
         yield return currentManche.EndManche();
-        currentManche = new Manche(this, false);
+        if (CheckEndGame())
+        {
+            EndGame();
+            yield break;
+        }
+
+        bool isHighTide = true;
+        if (turnCount % 5 == 0 && numberOfTide < 4)
+        {
+            numberOfTide++;
+            currentCycleTide = numberOfTide;
+        }
+        System.Random rnd = new System.Random();
+        int rand = rnd.Next(0, 1);
+        if(rand == 0 && currentCycleTide > numberOfTide)
+        {
+            isHighTide = false;
+            currentCycleTide--;
+        }
+        Debug.Log(isHighTide);
+        currentManche = new Manche(this, isHighTide);
         startTimer();
         _hasCastAction = false;
         shieldedType = Type.Empty;

@@ -22,14 +22,39 @@ public class Manche
     {
         _gameManager = gameManager;
         _isHighTide = isHighTide;
-        this.yellowAlgaes = GameManager.Instance.FindAllCaseType(Type.YellowAlgae);
-        this.blueAlgaes = GameManager.Instance.FindAllCaseType(Type.BlueAlgae);
+        this.yellowAlgaes = _gameManager.FindAllCaseType(Type.YellowAlgae);
+        this.blueAlgaes = _gameManager.FindAllCaseType(Type.BlueAlgae);
         spawnEnemyZone();
+    }
+
+    private void selectEnnemies()
+    {
+        if(_gameManager.turnCount % 5 == 0)
+        {
+            _gameManager.ennemiesNumber++;
+        }
+
+        this.spawnedEnemy = new List<Enemy>();
+        for (int i = 0; i < _gameManager.turnCount; i++)
+        {
+            List<Enemy> enemies = new List<Enemy>();
+            if (_isHighTide)
+            {
+                enemies = _gameManager.enemyList.Where(enemy => enemy.isHighTide).ToList();
+            }
+            else
+            {
+                enemies = _gameManager.enemyList.Where(enemy => !enemy.isHighTide).ToList();
+            }
+
+            System.Random rnd = new System.Random();
+            int rand = rnd.Next(0, enemies.Count);
+            this.spawnedEnemy.Add(enemies[rand]);
+        }
     }
 
     private void spawnEnemyZone()
     {
-       this.spawnedEnemy.Add(GameManager.Instance.enemyList[0]);
         foreach (Enemy enemy in this.spawnedEnemy)
         {
 
