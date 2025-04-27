@@ -129,7 +129,8 @@ GameObject:
   m_Component:
   - component: {fileID: 68121709}
   - component: {fileID: 68121708}
-  m_Layer: 0
+  - component: {fileID: 68121710}
+  m_Layer: 4
   m_Name: marre basse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +180,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: ecf22021f66df7543b6624c3e183c348, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -201,11 +202,23 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 2.3761697, y: 2.1234434, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68121710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68121707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222f9c11c6d000b4a971115923f8f897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330485790
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +366,8 @@ GameObject:
   m_Component:
   - component: {fileID: 654217133}
   - component: {fileID: 654217132}
-  m_Layer: 0
+  - component: {fileID: 654217134}
+  m_Layer: 3
   m_Name: borders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,12 +438,24 @@ Transform:
   m_GameObject: {fileID: 654217131}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0119, y: 0.0219, z: 0}
-  m_LocalScale: {x: 0.92457086, y: 0.83254147, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &654217134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654217131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222f9c11c6d000b4a971115923f8f897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1321607252
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,7 +466,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1321607254}
   - component: {fileID: 1321607253}
-  m_Layer: 0
+  - component: {fileID: 1321607255}
+  m_Layer: 4
   m_Name: marre haute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,11 +539,23 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.3761697, y: 2.1234434, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1321607255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321607252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222f9c11c6d000b4a971115923f8f897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2261721028462089413
 PrefabInstance:
   m_ObjectHideFlags: 0
