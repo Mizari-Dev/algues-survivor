@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TileBase _blackGrid;
+    [SerializeField] private EnnemyManager _ennemymanager;
     [SerializeField] private AudioReference _shieldSound;
     [SerializeField] private AudioReference _algaeAppear;
     [SerializeField]
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
+    public EnnemyManager EnnemyManager => _ennemymanager;
     public static GameManager Instance { get; private set; }
 
     void Start()
@@ -406,7 +408,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NextTurnInternal()
     {
-        yield return currentManche.EndManche();
+        yield return _ennemymanager.Play();
         if (CheckEndGame())
         {
             EndGame();

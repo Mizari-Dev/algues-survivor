@@ -582,6 +582,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1052030691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1052030693}
+  - component: {fileID: 1052030694}
+  m_Layer: 0
+  m_Name: EnnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1052030693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052030691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1052030694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052030691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb2f37f8540f8d4990027be56c61618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 8590026657664502042, guid: d0ffb8391aa2e484f9b44884f5fcf423, type: 3}
 --- !u!1 &1203329117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,6 +1136,7 @@ GameObject:
   - component: {fileID: 1634762326}
   - component: {fileID: 1634762325}
   - component: {fileID: 1634762323}
+  - component: {fileID: 1634762324}
   m_Layer: 0
   m_Name: UICam
   m_TagString: Untagged
@@ -1276,6 +1322,10 @@ PrefabInstance:
       propertyPath: lowTideSprite
       value: 
       objectReference: {fileID: 68121707}
+    - target: {fileID: 5569183217845300878, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
+      propertyPath: _ennemymanager
+      value: 
+      objectReference: {fileID: 1052030694}
     - target: {fileID: 5569183217845300878, guid: 96277d84b9d9d3048b16db0b0955c8ad, type: 3}
       propertyPath: highTideSprite
       value: 
@@ -14176,6 +14226,7 @@ SceneRoots:
   - {fileID: 537956342}
   - {fileID: 330485793}
   - {fileID: 2261721028462089413}
+  - {fileID: 1052030693}
   - {fileID: 654217133}
   - {fileID: 68121709}
   - {fileID: 1321607254}

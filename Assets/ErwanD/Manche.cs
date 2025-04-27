@@ -70,6 +70,7 @@ public class Manche
                     GameManager.Instance.SetCaseBackground(c);
                 }
             }
+            _gameManager.EnnemyManager.AddEnemy(enemy, randomSpawn);
         }
     }
 
@@ -91,16 +92,6 @@ public class Manche
             newCTop = _gameManager.GetCase(new Vector2Int(newVect.x, newVect.y +enemy.height));
         }
         return newC.position;
-    }
-
-    public IEnumerator EndManche()
-    {
-        for (int i = 0; i < ennemyCases.Count; i++)
-        {
-            Case c = ennemyCases[i];
-            yield return _gameManager.DestroyCase(c.position);
-            _gameManager.SetCaseBackground(new Case(null, Type.Empty, c.position));
-        }
     }
 
     public IEnumerator StartTimer()

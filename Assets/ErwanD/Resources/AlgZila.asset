@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: AlgZila
   m_EditorClassIdentifier: 
   name: AlgZila
-  width: 3
-  height: 5
+  width: 5
+  height: 9
   tile: {fileID: 11400000, guid: cdad00474ecf87649ae21d29254e3ef2, type: 2}
   type: 0
   isHighTide: 1
+  _soundOnSpawn: {fileID: 0}
+  _soundOnPlay: {fileID: 0}
+  _runtimeAnimatorController: {fileID: 9100000, guid: 7a4e9d192a66767469da5503ca615962, type: 2}
+  image: {fileID: 3499322507899085526, guid: f0195a6f4a4a4204e802058ee9ea739c, type: 3}

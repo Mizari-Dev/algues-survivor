@@ -10,4 +10,9 @@ public class Enemy : ScriptableObject
     public Tile tile;
     public Type type;
     public bool isHighTide;
+
+    public AudioReference _soundOnSpawn;
+    public AudioReference _soundOnPlay;
+    public RuntimeAnimatorController _runtimeAnimatorController;
+    public Sprite image;
 }

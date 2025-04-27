@@ -17,3 +17,8 @@ MonoBehaviour:
   height: 2
   tile: {fileID: 11400000, guid: cdad00474ecf87649ae21d29254e3ef2, type: 2}
   type: 5
+  isHighTide: 0
+  _soundOnSpawn: {fileID: 0}
+  _soundOnPlay: {fileID: 0}
+  _runtimeAnimatorController: {fileID: 9100000, guid: 7a4e9d192a66767469da5503ca615962, type: 2}
+  image: {fileID: -1821434128, guid: df6cc5f8f5f691d468b1a0c652ba336f, type: 3}
