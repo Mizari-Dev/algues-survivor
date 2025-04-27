@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TileBase _blackGrid;
+    [SerializeField] private AudioReference _shieldSound;
+    [SerializeField] private AudioReference _algaeAppear;
     [SerializeField]
     public Tilemap background;
     [SerializeField]
@@ -135,6 +137,8 @@ public class GameManager : MonoBehaviour
         if (caseToSet == null)
             yield break;
         _theoreticalMap[caseToSet.position.x][caseToSet.position.y] = caseToSet;
+        if(caseToSet.type == Type.BlueAlgae || caseToSet.type == Type.YellowAlgae)
+            SoundManager.Instance.PlaySound(_algaeAppear);
         playground.SetTile(new Vector3Int(caseToSet.position.x, caseToSet.position.y), caseToSet.tile);
         if (!instant)
             yield return new WaitForSeconds(.02f);
@@ -297,6 +301,7 @@ public class GameManager : MonoBehaviour
         if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
+        SoundManager.Instance.PlaySound(_shieldSound);
         shieldedType = Type.YellowAlgae;
         this.currentManche.endTurn();
     }
@@ -337,6 +342,7 @@ public class GameManager : MonoBehaviour
         if (_hasCastAction || this.getCooldown(PowerType.Bouclier) > 0)
             return;
         _hasCastAction = true;
+        SoundManager.Instance.PlaySound(_shieldSound);
         shieldedType = Type.BlueAlgae;
         this.currentManche.endTurn();
     }

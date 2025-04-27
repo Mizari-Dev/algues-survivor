@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ActionUI : UIPanelManager
 {
+    [SerializeField] private AudioReference _onPress;
     [SerializeField] private ScriptableKeyBind _yellowKeyBind;
     [SerializeField] private ScriptableKeyBind _blueKeyBind;
     [SerializeField] private ParticleSystem _yellowParticle;
@@ -14,9 +15,7 @@ public class ActionUI : UIPanelManager
         if (_blueKeyBind == null)
             return;
         _yellowKeyBind._onStart += YellowShowInternal;
-        _yellowKeyBind._onCancel += Hide;
         _blueKeyBind._onStart += BlueShowInternal;
-        _blueKeyBind._onCancel += Hide;
     }
 
     private void OnDestroy()
@@ -26,19 +25,17 @@ public class ActionUI : UIPanelManager
         if (_blueKeyBind == null)
             return;
         _yellowKeyBind._onStart -= YellowShowInternal;
-        _yellowKeyBind._onCancel -= Hide;
         _blueKeyBind._onStart -= BlueShowInternal;
-        _blueKeyBind._onCancel -= Hide;
     }
 
     private void YellowShowInternal()
     {
-        Show();
+        SoundManager.Instance.PlaySound(_onPress);
         _yellowParticle.Play();
     }
     private void BlueShowInternal()
     {
-        Show();
+        SoundManager.Instance.PlaySound(_onPress);
         _blueParticle.Play();
     }
 }

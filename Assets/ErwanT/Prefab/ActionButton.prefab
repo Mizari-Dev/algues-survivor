@@ -134,6 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panel: {fileID: 7768977878948404508}
+  _onPress: {fileID: 11400000, guid: daa1ed9c86c33db4e9f9429acc1dafc4, type: 2}
   _yellowKeyBind: {fileID: 11400000, guid: d0900cbc47a01fc4ab7c919949beb4df, type: 2}
   _blueKeyBind: {fileID: 11400000, guid: 06df83a1085c1bb4fbd7d06d5c38ca23, type: 2}
   _yellowParticle: {fileID: 392388121617179895}
