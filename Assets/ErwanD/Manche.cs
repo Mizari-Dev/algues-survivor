@@ -24,7 +24,7 @@ public class Manche
         _isHighTide = isHighTide;
         this.yellowAlgaes = _gameManager.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = _gameManager.FindAllCaseType(Type.BlueAlgae);
-        spawnEnemyZone();
+        //spawnEnemyZone();
     }
 
     private void selectEnnemies()
@@ -120,11 +120,13 @@ public class Manche
         {
             this.timer = lowTideTime;
         }
+        Events.SetTimer(timer);
         while (this.timer > 0)
         {
             this.timer -= 1f;
             Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
+            Events.SetTimer(timer);
         }
         this.endTurn();
     }

@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour
     private Coroutine timerCoroutine;
     public static GameManager Instance { get; private set; }
 
-    void Awake()
+    void Start()
     {
         Instance = this;
         InitGrid();
