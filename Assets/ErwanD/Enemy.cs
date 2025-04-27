@@ -9,4 +9,5 @@ public class Enemy : ScriptableObject
     public int height;
     public Tile tile;
     public Type type;
+    public bool isHighTide;
 }
