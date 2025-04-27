@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4606151099512958959}
   - component: {fileID: 1030566765306869706}
-  - component: {fileID: 8416702968020485961}
   - component: {fileID: 8842910886786391818}
   - component: {fileID: 8572289181563755107}
   - component: {fileID: 931222120135645206}
@@ -50,22 +49,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3328382807444806996}
   m_CullTransparentMesh: 1
---- !u!114 &8416702968020485961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3328382807444806996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47d6a6fbe7bae7f40997edeeae1c76b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _text: {fileID: 8842910886786391818}
-  _first: {fileID: 11400000, guid: 9e2fff5e0fcffdf4f8a3501121092739, type: 2}
-  _second: {fileID: 11400000, guid: be83ba28026bab14ab41bdb38e27e81a, type: 2}
-  _speed: 0.1
 --- !u!114 &8842910886786391818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,10 +69,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 9e2fff5e0fcffdf4f8a3501121092739, type: 2}
-  m_sharedMaterial: {fileID: -1500663585417144175, guid: 9e2fff5e0fcffdf4f8a3501121092739, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: be83ba28026bab14ab41bdb38e27e81a, type: 2}
+  m_sharedMaterial: {fileID: 453352447142608717, guid: be83ba28026bab14ab41bdb38e27e81a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -215,4 +198,4 @@ MonoBehaviour:
   _cg: {fileID: 8012374547739058003}
   _showUiState: {fileID: 11400000, guid: f400633858cab704691d160966635331, type: 2}
   _hideUiState: {fileID: 11400000, guid: 30c1dde1d846cd54a9e8f54afcbec456, type: 2}
-  _hideOnStart: 1
+  _hideOnStart: 0
