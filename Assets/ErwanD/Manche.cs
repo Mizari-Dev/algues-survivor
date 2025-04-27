@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using static UnityEngine.EventSystems.EventTrigger;
-using Random = UnityEngine.Random;
 
 public class Manche
 {
@@ -32,11 +31,12 @@ public class Manche
     {
         if(_gameManager.turnCount % 5 == 0)
         {
+            Debug.Log("CHAAAAAAAAANNNGGEE");
             _gameManager.ennemiesNumber++;
         }
 
         this.spawnedEnemy = new List<Enemy>();
-        for (int i = 0; i < _gameManager.turnCount; i++)
+        for (int i = 0; i < _gameManager.ennemiesNumber; i++)
         {
             List<Enemy> enemies = new List<Enemy>();
             if (_isHighTide)
@@ -48,16 +48,9 @@ public class Manche
                 enemies = _gameManager.enemyList.Where(enemy => !enemy.isHighTide).ToList();
             }
 
-            if (enemies.Count > 0)
-            {
-                System.Random rnd = new System.Random();
-                int rand = rnd.Next(0, enemies.Count);
-                this.spawnedEnemy.Add(enemies[rand]);
-            }
-        }
-        foreach(Enemy enemy in this.spawnedEnemy)
-        {
-            Debug.Log(enemy.type);
+            System.Random rnd = new System.Random();
+            int rand = rnd.Next(0, enemies.Count);
+            this.spawnedEnemy.Add(enemies[rand]);
         }
     }
 
@@ -66,16 +59,12 @@ public class Manche
         selectEnnemies();
         foreach (Enemy enemy in this.spawnedEnemy)
         {
-
+            Debug.Log(enemy.name);
             Vector2Int randomSpawn = getRandomSpawn(enemy);
-            Debug.Log(randomSpawn);
             for (int x = 0; x < enemy.width; x++)
             {
                 for (int y = 0; y < enemy.height; y++)
                 {
-                    Debug.Log(" x et y :" );
-                    Debug.Log(randomSpawn.x + x);
-                    Debug.Log(randomSpawn.y + y);
                     Case c = new Case(enemy.tile, enemy.type, new Vector2Int(randomSpawn.x + x, randomSpawn.y + y));
                     ennemyCases.Add(c);
                     GameManager.Instance.SetCaseBackground(c);
@@ -127,7 +116,7 @@ public class Manche
         while (this.timer > 0)
         {
             this.timer -= 1f;
-            Debug.Log("Time Remaining: " + timer);
+           // Debug.Log("Time Remaining: " + timer);
             yield return new WaitForSeconds(1f);
         }
         this.endTurn();
@@ -135,114 +124,70 @@ public class Manche
 
     public IEnumerator moveDirectionPower(string direction, Type type)
     {
-        List<Case> empties = FindAllEmpty(ConvertDirection(direction), type);
-        Vector2Int numericDirection = ConvertDirection(direction);
-        int numberOfMove = Math.Clamp(empties.Count, 0, 2);
-        for (int i = 0; i < numberOfMove; i++)
-        {
-            Case c = empties[Random.Range(0, empties.Count)];
-            Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
-            nextCase.type = c.type;
-            nextCase.position = c.position + numericDirection;
-            nextCase.tile = c.tile;
-            empties.Remove(c);
-            yield return _gameManager.SetCase(nextCase);
-        }
-    }
-
-    public IEnumerator moveRandomDirection(Type type)
-    {
-        List<Vector2Int> directions = new List<Vector2Int>()
-        {
-            Vector2Int.down,
-            Vector2Int.up,
-            Vector2Int.left,
-            Vector2Int.right
-        };
-        List<List<Case>> possibleMove = new List<List<Case>>()
-        {
-            FindAllEmpty(Vector2Int.down, type),
-            FindAllEmpty(Vector2Int.up, type),
-            FindAllEmpty(Vector2Int.left, type),
-            FindAllEmpty(Vector2Int.right, type)
-        };
-        
-        int liberties = 0;
-        for (int i = 0; i < possibleMove.Count; i++)
-        {
-            if (possibleMove[i].Count == 0)
-            {
-                possibleMove.RemoveAt(i);
-                directions.RemoveAt(i);
-                i--;
-                continue;
-            }
-            
-            liberties += possibleMove[i].Count;
-        }
-
-        List<Case> color;
+        List<Case> colorCase;
         if (type == Type.YellowAlgae)
-            color = this.yellowAlgaes;
-        else
-            color = this.blueAlgaes;
-        liberties = Math.Clamp(liberties, 0, Math.Clamp(color.Count,0,5));
-        int ran;
-        int ranDir;
-        Case chosenCase;
-        Case newCase;
-        for (int i = 0; i < liberties; i++)
         {
-            ranDir = Random.Range(0, possibleMove.Count);
-            ran = Random.Range(0, possibleMove[ranDir].Count);
-            chosenCase = possibleMove[ranDir][ran];
-            newCase = new Case(
-                chosenCase.tile,
-                chosenCase.type,
-                chosenCase.position + directions[ranDir]
-            );
-            
-            possibleMove[ranDir].RemoveAt(ran);
-            if (possibleMove[ranDir].Count == 0)
-            {
-                possibleMove.RemoveAt(ranDir);
-                directions.RemoveAt(ranDir);
-            }
-            
-            yield return _gameManager.SetCase(newCase);
+            colorCase = this.yellowAlgaes;
         }
-        _gameManager.setCooldown(PowerType.Random, 5);
-    }
-
-    public IEnumerator multiDirectionPower(Type type)
-    {
-        Vector2Int[] direcitons = new Vector2Int[]
+        else if (type == Type.BlueAlgae)
         {
-            Vector2Int.down,
-            Vector2Int.up,
-            Vector2Int.left,
-            Vector2Int.right
-        };
-        List<List<Case>> empties = new List<List<Case>>()
+            colorCase = this.blueAlgaes;
+        }
+        else
         {
-            FindAllEmpty(Vector2Int.down, type),
-            FindAllEmpty(Vector2Int.up, type),
-            FindAllEmpty(Vector2Int.left, type),
-            FindAllEmpty(Vector2Int.right, type)
-        };
-
-        for (int i = 0; i < empties.Count; i++)
+            yield break;
+        }
+        colorCase.Shuffle();
+        foreach (Case c in colorCase)
         {
-            for (int j = 0; j < empties[i].Count; j++)
+            Vector2Int numericDirection = ConvertDirection(direction);
+            Case nextCase = GameManager.Instance.GetCase(c.position + numericDirection);
+            if (nextCase != null && nextCase.type == Type.Empty)
             {
-                Case c = empties[i][j];
-                Case nextCase = _gameManager.GetCase(c.position + direcitons[i]);
                 nextCase.type = c.type;
-                nextCase.position = c.position + direcitons[i];
+                nextCase.position = c.position + numericDirection;
                 nextCase.tile = c.tile;
                 yield return _gameManager.SetCase(nextCase);
             }
         }
+    }
+
+    public IEnumerator moveRandomDirection(string direction, Type type)
+    {
+        Vector2Int directionVector = ConvertDirection(direction);
+        List<Case> possibleMove = FindAllEmpty(directionVector, type);
+        
+        int liberties = possibleMove.Count;
+        int ran;
+        Case chosenCase;
+        Case newCase;
+        for (int i = 0; i < liberties; i++)
+        {
+            ran = UnityEngine.Random.Range(0, possibleMove.Count);
+            chosenCase = possibleMove[ran];
+            newCase = new Case(
+                chosenCase.tile,
+                chosenCase.type,
+                chosenCase.position + directionVector
+            );
+            yield return _gameManager.SetCase(newCase);
+            if (_gameManager.GetCase(newCase.position + directionVector)?.type == Type.Empty)
+            {
+                possibleMove[ran] = newCase;
+            }
+            else
+            {
+                possibleMove.RemoveAt(ran);
+            }
+        }
+        _gameManager.setCooldown(PowerType.Random, 1);
+    }
+
+    public IEnumerator multiDirectionPower(Type type)
+    {
+        string[] directions = {"up", "down", "left", "right"};
+        foreach (string direction in directions)
+            yield return moveDirectionPower(direction, type);
     }
 
     public IEnumerator threeDirectionPower(string direction, Type type)

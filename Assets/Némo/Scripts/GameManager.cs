@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     public int turnCount = 0;
     public int numberOfTide = 1;
     public int currentCycleTide = 1;
-    public int ennemiesNumber;
+    public int ennemiesNumber = 1;
     public Type shieldedType;
     private bool _hasCastAction;
     private Coroutine timerCoroutine;
@@ -406,17 +406,17 @@ public class GameManager : MonoBehaviour
             yield break;
         }
 
-        bool isHighTide = true;
+        bool isHighTide = false;
         if (turnCount % 5 == 0 && numberOfTide < 4)
         {
             numberOfTide++;
             currentCycleTide = numberOfTide;
         }
         System.Random rnd = new System.Random();
-        int rand = rnd.Next(0, 1);
-        if(rand == 0 && currentCycleTide > numberOfTide)
+        int rand = rnd.Next(0, 2);
+        if(rand == 0 && currentCycleTide <= numberOfTide)
         {
-            isHighTide = false;
+            isHighTide = true;
             currentCycleTide--;
         }
         if (isHighTide)
@@ -429,6 +429,7 @@ public class GameManager : MonoBehaviour
             highTideSprite.SetActive(false);
             lowTideSprite.SetActive(true);
         }
+        Debug.Log(isHighTide);
         currentManche = new Manche(this, isHighTide);
         startTimer();
         _hasCastAction = false;
@@ -453,6 +454,7 @@ public class GameManager : MonoBehaviour
     public void setCooldown(PowerType type, int time)
     {
         this.cooldowns[type] = time;
+        Events.DoSetCooldown(type,time);
     }
 
     public int getCooldown(PowerType type)
