@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
 
 public class GameManager : MonoBehaviour
 {
@@ -301,6 +302,7 @@ public class GameManager : MonoBehaviour
             return;
         _hasCastAction = true;
         SoundManager.Instance.PlaySound(_shieldSound);
+        setCooldown(PowerType.Bouclier, 5);
         shieldedType = Type.YellowAlgae;
         this.currentManche.endTurn();
     }
@@ -338,6 +340,7 @@ public class GameManager : MonoBehaviour
             return;
         _hasCastAction = true;
         SoundManager.Instance.PlaySound(_shieldSound);
+        setCooldown(PowerType.Bouclier, 5);
         shieldedType = Type.BlueAlgae;
         this.currentManche.endTurn();
     }
@@ -433,6 +436,8 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log(isHighTide);
         currentManche = new Manche(this, isHighTide);
+        foreach (var item in cooldowns)
+            Events.DoSetCooldown(item.Key, item.Value);
         startTimer();
         _hasCastAction = false;
         shieldedType = Type.Empty;
@@ -449,6 +454,7 @@ public class GameManager : MonoBehaviour
     private async void EndGame()
     {
         await SceneManager.LoadSceneAsync(2);
+        await Task.Delay(100);
         Events.DoScoreLoaded(turnCount);
 
     }

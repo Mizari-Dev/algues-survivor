@@ -21,10 +21,6 @@ public class CooldownUI : UIPanelManager
     {
         if (type != _power)
             return;
-        if (value <= 0)
-            Hide();
-        else
-            Show();
         _text.text = value.ToString();
     }
 }
