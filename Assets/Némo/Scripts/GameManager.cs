@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     private void InitSpawn()
     {
         int x = 6;
-        StartCoroutine( SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)),true));
+        StartCoroutine(SetCase(new Case(yellowAlgae, Type.YellowAlgae, new Vector2Int(x, 1)), true));
         StartCoroutine( SetCase(new Case(blueAlgae, Type.BlueAlgae, new Vector2Int(x, _theoreticalMap[0].Length - 2)), true));
     }
     
