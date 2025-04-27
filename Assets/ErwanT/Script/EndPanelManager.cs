@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class EndPanelManager : UIPanelManager
 {
@@ -173,5 +174,9 @@ public class EndPanelManager : UIPanelManager
     public void Quit()
     {
         Application.Quit();
+    }
+    public void Replay()
+    {
+        SceneManager.LoadScene(1);
     }
 }

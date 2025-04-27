@@ -268,7 +268,6 @@ GameObject:
   - component: {fileID: 117398870}
   - component: {fileID: 117398871}
   - component: {fileID: 117398873}
-  - component: {fileID: 117398872}
   - component: {fileID: 117398875}
   - component: {fileID: 117398874}
   m_Layer: 5
@@ -327,36 +326,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &117398872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117398869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &117398873
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1345,12 +1314,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1844945546}
     - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1220957796}
     - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 731757088}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Play
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: Replay
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: EndPanelManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 626860851048424722, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1210473455635408718, guid: 2925520bfc96e804bad8fd6bedecc015, type: 3}
       propertyPath: m_Name
@@ -2733,7 +2730,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &1874954042
 RectTransform:
@@ -2969,7 +2966,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_TargetDisplay: 0
 --- !u!224 &1922792731
 RectTransform:
@@ -3001,7 +2998,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1952429944}
   - component: {fileID: 1952429947}
-  - component: {fileID: 1952429946}
   - component: {fileID: 1952429948}
   - component: {fileID: 1952429949}
   - component: {fileID: 1952429951}
@@ -3035,36 +3031,6 @@ RectTransform:
   m_AnchoredPosition: {x: 362.5, y: 50.00003}
   m_SizeDelta: {x: 625, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1952429946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1952429943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1952429947
 CanvasRenderer:
   m_ObjectHideFlags: 0
