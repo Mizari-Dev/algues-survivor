@@ -1091,6 +1091,7 @@ GameObject:
   - component: {fileID: 1634762326}
   - component: {fileID: 1634762325}
   - component: {fileID: 1634762323}
+  - component: {fileID: 1634762324}
   m_Layer: 0
   m_Name: UICam
   m_TagString: Untagged
