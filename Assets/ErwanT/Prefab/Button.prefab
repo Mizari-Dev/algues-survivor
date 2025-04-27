@@ -18,8 +18,6 @@ GameObject:
   - component: {fileID: 4450050170144380362}
   - component: {fileID: 49609542471399591}
   - component: {fileID: 6195250619781193985}
-  - component: {fileID: 1509802146039381121}
-  - component: {fileID: 3783319993074279929}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -237,46 +235,6 @@ MonoBehaviour:
   _showUiState: {fileID: 11400000, guid: abb9a6a602eecd040899340d7ada8dd0, type: 2}
   _hideUiState: {fileID: 11400000, guid: 3d7324b9336197449a18fb81e34ea068, type: 2}
   _hideOnStart: 1
---- !u!223 &1509802146039381121
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210473455635408718}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 1
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 5
-  m_TargetDisplay: 0
---- !u!114 &3783319993074279929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210473455635408718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1001 &2003515148082860376
 PrefabInstance:
   m_ObjectHideFlags: 0
