@@ -21,6 +21,8 @@ public class EnnemyManager : MonoBehaviour
             coroutines.Add(StartCoroutine(_visual[i].Play()));
         foreach (var corout in coroutines)
             yield return corout;
+        foreach (Transform T in transform)
+            Destroy(T.gameObject);
         _visual.Clear();
     }
 }

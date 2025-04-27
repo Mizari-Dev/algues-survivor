@@ -107,8 +107,8 @@ public class Manche
         {
             iterateCount++;
             System.Random rnd = new System.Random();
-            int randy = rnd.Next(1, _gameManager.background.size.y - enemy.height);
-            int randx = rnd.Next(1, _gameManager.background.size.x - enemy.width);
+            int randy = rnd.Next(0, _gameManager.background.size.y - enemy.height+1);
+            int randx = rnd.Next(0, _gameManager.background.size.x - enemy.width+1);
             Vector2Int newVect = new Vector2Int(randx, randy);
             newC = _gameManager.GetCase(newVect);
             newCLeft = _gameManager.GetCase(new Vector2Int(newVect.x + enemy.width, newVect.y));
