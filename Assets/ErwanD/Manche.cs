@@ -24,7 +24,7 @@ public class Manche
         _isHighTide = isHighTide;
         this.yellowAlgaes = _gameManager.FindAllCaseType(Type.YellowAlgae);
         this.blueAlgaes = _gameManager.FindAllCaseType(Type.BlueAlgae);
-        //spawnEnemyZone();
+        spawnEnemyZone();
     }
 
     private void selectEnnemies()
